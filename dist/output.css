@@ -1,0 +1,25 @@
+/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --color-amber-50: oklch(98.7% 0.022 95.277);
+    --color-cyan-100: oklch(95.6% 0.045 203.388);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
+  }
+}
+@layer utilities {
+  .static {
+    position: static;
+  }
+  .bg-amber-50 {
+    background-color: var(--color-amber-50);
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-cyan-100 {
+    color: var(--color-cyan-100);
+  }
+}
