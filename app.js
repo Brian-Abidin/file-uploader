@@ -33,5 +33,4 @@ app.use(passportController.currentUser);
 // uses usersRouter to route all views and display them in app
 app.use("/", usersRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Express app listening to port ${PORT}`));
+module.exports = app;
