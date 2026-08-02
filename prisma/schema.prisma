@@ -12,8 +12,41 @@ datasource db {
   provider = "postgresql"
 }
 
+model Session {
+  sid String @unique
+  data String 
+  expiresAt DateTime
+}
+
 model User {
   id Int @id @default(autoincrement())
   username String
   password String
+  items Item[]
+}
+
+model Item {
+  id Int @id @default(autoincrement())
+  name String
+  type ItemType
+  mediaType String?
+  path Int[] @default([])
+  size Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parentId Int?
+  parent Item? @relation("Parent", fields: [parentId], references: [id], onDelete: Cascade)
+  children Item[] @relation("Parent")
+
+  user User @relation(fields:[userId], references: [id])
+  userId Int 
+
+  @@index([parentId])
+  @@index([userId])
+}
+
+enum ItemType{
+  FILE
+  FOLDER
 }
