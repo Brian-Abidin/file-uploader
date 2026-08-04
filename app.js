@@ -2,8 +2,10 @@ const session = require("express-session");
 const express = require("express");
 const path = require("node:path");
 const passport = require("passport");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const usersRouter = require("./routes/usersRouter");
 const passportController = require("./config/passport");
+const prisma = require("./lib/prisma");
 require("dotenv").config();
 
 const app = express();
@@ -16,9 +18,20 @@ app.use(express.static("public"));
 // used to used static files in the dist folder
 app.use(express.static(path.join(__dirname, "dist")));
 
-// creating the express session and executing passport.session
-// THIS IS FROM THE EXAMPLE IN ODIN PROJECT; UPDATE FOR INDIVIDUAL PROJECT
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+// creating the express session with Prisma Session store layer and executing passport.session
+app.use(
+  session({
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 }, // 30 days
+    secret: "cats",
+    resave: false,
+    saveUninitialized: false,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 1000 * 60 * 2, // check every 2 minutes
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined
+    })
+  })
+);
 app.use(passport.session());
 
 // used to parse form data into req.body
