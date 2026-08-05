@@ -11,7 +11,7 @@ const prisma = require("../lib/prisma");
 // acts like a middleware and is called when asking passport for authentication
 const localStratregy = new LocalStrategy(async (username, password, done) => {
   try {
-    const user = await prisma.User.findUnique({
+    const user = await prisma.user.findUnique({
       where: { username }
     });
     // CODE BELOW IS FOR RAW QUERIES WITHOUT PRISMA
@@ -43,7 +43,7 @@ const serializeUser = (user, done) => {
 
 const deserializeUser = async (id, done) => {
   try {
-    const user = prisma.User.findUnique({
+    const user = prisma.user.findUnique({
       where: { id }
     });
     // CODE BELOW IS FOR RAW QUERIES WITHOUT PRISMA
