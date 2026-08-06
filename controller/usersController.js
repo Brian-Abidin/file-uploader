@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const multer = require("multer");
 
 async function getIndex(req, res) {
   console.log(res.locals);
