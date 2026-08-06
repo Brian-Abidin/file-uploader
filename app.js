@@ -2,10 +2,16 @@ const session = require("express-session");
 const express = require("express");
 const path = require("node:path");
 const passport = require("passport");
+const { PrismaPg } = require("@prisma/adapter-pg");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const { PrismaClient } = require("./generated/prisma/client.js");
 const usersRouter = require("./routes/usersRouter");
 const passportController = require("./config/passport");
-const prisma = require("./lib/prisma");
+
+const connectionString = `${process.env.DATABASE_URL}`;
+const adapter = new PrismaPg({ connectionString });
+const prisma = new PrismaClient({ adapter });
+
 require("dotenv").config();
 
 const app = express();
