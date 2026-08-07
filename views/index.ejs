@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head') %>
-<body>
+<body class="m-0 p-0">
   <% if (locals.user) {%>
     <h1>WELCOME BACK <%= user.username %></h1>
     <a href="/log-out">LOG OUT</a>
   <% } else { %>
-    <h1 class="bg-amber-50 text-2xl text-cyan-100">please log in</h1>
-    <h1>or <a href="/sign-up">sign up</a>!</h1>
-    <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input id="username" name="username" placeholder="username" type="text" />
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" />
-      <label for="confirm-password">Confirm Password:</label>
-      <input id="confirm-password" name="confirm-password" type="password">
-      <button type="submit">Log In</button>
-    </form>
+    <div class="h-screen w-screen flex justify-center items-center bg-gray-700">
+      <form class="h-50 w-50 p-10 rounded-2xl bg-amber-400" action="/log-in" method="POST">
+        <div></div>
+        <label for="username">Username</label>
+        <input id="username" name="username" placeholder="username" type="text" />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+        <label for="confirm-password">Confirm Password:</label>
+        <input id="confirm-password" name="confirm-password" type="password">
+        <button type="submit">Log In</button>
+      </form>
+    </div>
   <%}%>
 
 </body>
