@@ -10,10 +10,12 @@ const prisma = require("../lib/prisma");
 // this is the function that is called when using passport.authenticate
 // acts like a middleware and is called when asking passport for authentication
 const localStratregy = new LocalStrategy(async (username, password, done) => {
+  console.log(username, password, "THIS IS THE USERNAME AND PASS BBRO");
   try {
     const user = await prisma.user.findUnique({
       where: { username }
     });
+    console.log(user, "HELP HELP HELP HERE!!!!!");
     // CODE BELOW IS FOR RAW QUERIES WITHOUT PRISMA
     // const { rows } = await pool.query(
     //   "SELECT * FROM users WHERE username = $1",
