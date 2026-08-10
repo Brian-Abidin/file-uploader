@@ -7,15 +7,26 @@
     <a href="/log-out">LOG OUT</a>
   <% } else { %>
     <div class="h-screen w-screen flex justify-center items-center bg-gray-700">
-      <form class="h-50 w-50 p-10 rounded-2xl bg-amber-400" action="/log-in" method="POST">
-        <div></div>
-        <label for="username">Username</label>
-        <input id="username" name="username" placeholder="username" type="text" />
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" />
-        <label for="confirm-password">Confirm Password:</label>
-        <input id="confirm-password" name="confirm-password" type="password">
-        <button type="submit">Log In</button>
+      <form class="h-60 w-60 p-5 flex flex-col justify-center items-center rounded-2xl bg-amber-400" action="/log-in" method="POST">
+        <div class="m-0 p-0 w-full flex flex-col bg-amber-600">
+          <h2 class="m-0 p-0">File Uploader</h2>
+          <h4 class="m-0 p-0">don't have an account?<a href="/sign-up">Sign Up!</a></h4>
+        </div>
+        <div class="w-full flex flex-col justify-center items-center gap-2 bg-blue-300">
+          <div class="w-full">
+            <label for="username">Username</label>
+            <input class="m-0 p-0 w-full flex h-8 border-0" id="username" name="username" placeholder="username" type="text" />
+          </div>
+          <div class="w-full">
+            <label for="password">Password</label>
+            <input class="m-0 p-0 w-full flex h-8 border-0" id="password" name="password" placeholder="password" type="password" />
+          </div>
+          <div class="w-full">
+            <label for="confirm-password">Confirm Password:</label>
+            <input class="m-0 p-0 w-full flex h-8 border-0" id="confirm-password" name="confirm-password" placeholder="confirm password" type="password">
+          </div>
+          <button class="w-full" type="submit">Log In</button>
+        </div>
       </form>
     </div>
   <%}%>
