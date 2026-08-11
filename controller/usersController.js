@@ -23,7 +23,9 @@ async function getForm(req, res) {
 }
 
 async function getFailure(req, res) {
-  res.render("failure");
+  const errors = req.session.messages || [];
+  req.session.messages = [];
+  res.render("failure", { errors });
 }
 
 module.exports = {
