@@ -37,7 +37,8 @@ UsersRouter.post(
   },
   passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/failure"
+    failureRedirect: "/failure",
+    failureMessage: true
   })
 );
 
