@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head') %>
-<body class="m-0 p-0">
+<body class="font-sans m-0 p-0">
   <% if (locals.user) {%>
     <h1>WELCOME BACK <%= user.username %></h1>
     <a href="/log-out">LOG OUT</a>
   <% } else { %>
-    <div class="h-screen w-screen flex justify-center items-center bg-gray-700">
-      <form class="h-60 w-60 p-5 flex flex-col justify-center items-center rounded-2xl bg-amber-400" action="/log-in" method="POST">
-        <div class="m-0 p-0 w-full flex flex-col bg-amber-600">
-          <h2 class="m-0 p-0">File Uploader</h2>
-          <h4 class="m-0 p-0">don't have an account?<a href="/sign-up">Sign Up!</a></h4>
+    <div class="h-screen w-screen flex justify-center items-center text-gray-900 bg-gray-700">
+      <form class="h-fit w-60 p-8 flex flex-col justify-center items-center rounded-2xl bg-white gap-2 border-gray-400 border-3" action="/log-in" method="POST">
+        <div class="m-0 p-0 w-full flex flex-col">
+          <h1 class="m-0 p-0">Log in</h1>
         </div>
-        <div class="w-full flex flex-col justify-center items-center gap-2 bg-blue-300">
-          <div class="w-full">
-            <label for="username">Username</label>
-            <input class="m-0 p-0 w-full flex h-8 border-0" id="username" name="username" placeholder="username" type="text" />
+        <div class="mt-4 w-full flex flex-col justify-center items-center gap-5">
+          <div class="flex flex-col w-full justify-center items-center gap-2">
+            <label class="w-full mr-2" for="username">Username</label>
+            <input class="m-0 p-1 w-full flex h-7 border-2 rounded-sm" id="username" name="username" placeholder="username" type="text" />
           </div>
-          <div class="w-full">
-            <label for="password">Password</label>
-            <input class="m-0 p-0 w-full flex h-8 border-0" id="password" name="password" placeholder="password" type="password" />
+          <div class="flex flex-col w-full justify-center items-center gap-2">
+            <label class="w-full mr-2" for="password">Password</label>
+            <input class="m-0 p-1 w-full flex h-7 border-2 rounded-sm" id="password" name="password" placeholder="password" type="password" />
           </div>
-          <div class="w-full">
-            <label for="confirm-password">Confirm Password:</label>
-            <input class="m-0 p-0 w-full flex h-8 border-0" id="confirm-password" name="confirm-password" placeholder="confirm password" type="password">
+          <div class="p-1 flex flex-col w-full justify-center items-center gap-2">
+            <label class="w-full mr-2" for="confirm-password">Confirm Password:</label>
+            <input class="m-0 p-1 w-full flex h-7 border-2 rounded-sm" id="confirm-password" name="confirm-password" placeholder="confirm password" type="password">
           </div>
-          <button class="w-full" type="submit">Log In</button>
+          <div class="flex flex-col w-full justify-center items-center gap-1 mt-4">
+            <button class="text-base w-63 h-12 bg-blue-400 rounded-lg border-0 cursor-pointer hover:bg-blue-600" type="submit">Log In</button>
+            <h5 class="m-0 p-0 mt-4 font-normal">Don't have an account? <a href="/sign-up">Sign Up!</a></h5>
+          </div>
         </div>
       </form>
     </div>
