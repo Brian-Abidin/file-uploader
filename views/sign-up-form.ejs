@@ -4,11 +4,20 @@
 <body>
   <h1>Sign Up</h1>
   <form action="/sign-up" method="POST">
-    <label for="username">Username</label>
-    <input id="username" name="username" placeholder="username" type="text" />
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" />
+    <div class="p-1 flex flex-col w-full justify-center items-center gap-2"></div>
+      <label for="username">Username</label>
+      <input id="username" name="username" placeholder="username" type="text" />
+    </div>
+    <div class="p-1 flex flex-col w-full justify-center items-center gap-2"></div>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" />
+    </div>
+    <div class="p-1 flex flex-col w-full justify-center items-center gap-2">
+      <label class="w-full mr-2" for="confirm-password">Confirm Password:</label>
+      <input class="m-0 p-1 w-full flex h-7 border-2 rounded-sm" id="confirm-password" name="confirm-password" placeholder="confirm password" type="password">
+    </div>
     <button type="submit">Sign Up</button>
+
   </form>
 </body>
 </html>
