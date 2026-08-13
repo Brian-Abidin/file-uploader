@@ -28,7 +28,7 @@ UsersRouter.post(
         acc[error.path] = error.msg;
         return acc;
       }, {});
-      res.status(404).render("failure", {
+      return res.status(404).render("failure", {
         errors: Object.values(errorMap)
       });
     }
