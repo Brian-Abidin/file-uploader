@@ -1,37 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head') %>
-<body class="font-sans m-0 p-0">
+<body class="font-sans m-0 p-0 ">
   <div class="h-screen w-screen grid grid-col-1 grid-rows-[auto_1fr] bg-amber-400">
     <%- include('partials/header') %>
     <% if (locals.user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
       <a href="/log-out">LOG OUT</a>
     <% } else { %>
-      <div class="flex justify-center items-center text-gray-900 bg-gray-700">
-        <form class="h-fit w-60 p-8 flex flex-col justify-center items-center rounded-2xl bg-gray-100 gap-2 border-gray-500 border-3" action="/log-in" method="POST">
-          <div class="m-0 p-0 mr-3 w-full flex flex-col">
-            <h1 class="m-0 p-0">Log in</h1>
+      <div class="flex justify-start items-start bg-gray-800 text-gray-50">
+        <div class="w-55 h-full flex flex-col bg-gray-800">
+          <div class="m-5 h-full flex flex-col justify-start items-center">
+            <div>This is where the file options are</div>
           </div>
-          <div class="mt-4 w-full flex flex-col justify-center items-center gap-5">
-            <div class="flex flex-col w-full justify-center items-center gap-2">
-              <label class="w-full mr-3" for="username">Username:</label>
-              <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="username" name="username" placeholder="username" type="text" />
-            </div>
-            <div class="flex flex-col w-full justify-center items-center gap-2">
-              <label class="w-full mr-3" for="password">Password:</label>
-              <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="password" name="password" placeholder="password" type="password" />
-            </div>
-            <!-- <div class="p-1 flex flex-col w-full justify-center items-center gap-2">
-              <label class="w-full mr-2" for="confirm-password">Confirm Password:</label>
-              <input class="m-0 p-1 w-full flex h-7 border-2 rounded-sm" id="confirm-password" name="confirm-password" placeholder="confirm password" type="password">
-            </div> -->
-            <div class="flex flex-col w-full justify-center items-center gap-1 mt-4">
-              <button class="text-base w-65 h-13 bg-blue-400 rounded-lg border-0 cursor-pointer hover:bg-blue-500" type="submit">Log In</button>
-              <h5 class="m-0 p-0 mt-4 font-lg">Don't have an account? <a href="/sign-up">Sign Up!</a></h5>
-            </div>
-          </div>
-        </form>
+        </div>
+        <div class="mr-5 flex-1 min-w-150 h-[98%] bg-gray-700 rounded-2xl">
+          <div class="m-5">This is where the files are going to be located in rows</div>
+        </div>
       </div>
     <%}%>
   </div>
