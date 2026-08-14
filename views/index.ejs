@@ -8,14 +8,17 @@
       <h1>WELCOME BACK <%= user.username %></h1>
       <a href="/log-out">LOG OUT</a>
     <% } else { %>
-      <div class="flex justify-start items-start bg-gray-800 text-gray-50">
+      <div class="max-w-screen flex justify-start items-start bg-gray-800 text-gray-50">
         <div class="w-55 h-full flex flex-col bg-gray-800">
           <div class="m-5 h-full flex flex-col justify-start items-center">
             <div>This is where the file options are</div>
           </div>
         </div>
-        <div class="mr-5 flex-1 min-w-150 h-[98%] bg-gray-700 rounded-2xl">
-          <div class="m-5">This is where the files are going to be located in rows</div>
+        <div class="mr-5 flex-1 min-w-150 max-w-full h-[98%] bg-gray-700 rounded-2xl">
+          <div class="m-5 max-w-full">
+            <div class="h-fit max-w-full p-1 text-2xl overflow-x-auto whitespace-nowrap bg-amber-900">This is where the current folder path will be displayed This is where the current folder path will be displayed This is where the current folder path will be displayed This is where the current folder path will be displayed</div>
+            This is where the files are going to be located in rows
+          </div>
         </div>
       </div>
     <%}%>
