@@ -11,14 +11,20 @@
       <div class="mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
         <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800">
           <button class="m-5 bg-gray-200 h-15 rounded-xl border-none active:bg-amber-500 cursor-pointer">+ New</button>
-          <div class="ml-5 mr-5 mb-5 h-full flex flex-col justify-start items-center bg-amber-700">
+          <div class="ml-5 mr-5 mb-5 h-full flex flex-col justify-start items-center bg-amber-100">
             <div class="w-full relative inline-block">
-              <button id="dropdownBtn" class="w-full cursor-pointer bg-amber-800 focus:outline-none">John</button>
-              <div id="dropdownMenu" class="w-full hidden absolute bg-gray-50 flex-col z-10">
-                <a class="p-1 block no-underline hover:bg-gray-100 first:rounded-t-md" href="">test 1</a>
-                <a class="p-1 block no-underline hover:bg-gray-100" href="">test 1</a>
-                <a class="p-1 block no-underline hover:bg-gray-100 last:rounded-b-md" href="">test 1</a>
-              </div> 
+              <button id="dropdownBtn" class="h-5 w-full flex justify-start items-center cursor-pointer focus:outline-none bg-gray-100 border-none">
+                <img id="dropdownIcon" class="w-4 h-4 rotate-270 transform transition-transform duration-300" src="/images/down.png" alt="arrow bracket">
+                <div>john</div>
+              </button>
+              <div id="dropdownMenu" class="w-full absolute right-0 origin-top transition-all duration-200 ease-in-out opacity-0 scale-y-0 pointer-events-none bg-gray-50 flex-col z-10">
+                <a class="ml-1 p-1 block no-underline hover:bg-gray-100 first:rounded-t-md" href="">test folder 1</a>
+                <a class="ml-2 p-1 block no-underline hover:bg-gray-100" href="">folder 1</a>
+                <a class="ml-3 p-1 block no-underline hover:bg-gray-100 last:rounded-b-md" href="">test 1</a>
+                <a class="ml-4 p-1 block no-underline hover:bg-gray-100 first:rounded-t-md" href="">test 1</a>
+                <a class="ml-5 p-1 block no-underline hover:bg-gray-100" href="">test 1</a>
+                <a class="ml-6 p-1 block no-underline hover:bg-gray-100 last:rounded-b-md" href="">test 1</a>
+              </div>
             </div>
           </div>
         </div>
