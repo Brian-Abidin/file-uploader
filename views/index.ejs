@@ -2,28 +2,64 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body class="font-sans m-0 p-0 ">
-  <div class="h-screen w-screen grid grid-col-1 grid-rows-[auto_1fr] bg-amber-400">
+  <div class="min-h-screen min-w-screen grid grid-col-1 grid-rows-[auto_1fr] bg-gray-800">
     <%- include('partials/header') %>
     <% if (locals.user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
       <a href="/log-out">LOG OUT</a>
     <% } else { %>
-      <div class="max-w-screen flex justify-start items-start bg-gray-800 text-gray-50">
-        <div class="w-55 h-full flex flex-col bg-gray-800">
+      <div class="h-full w-full flex justify-start items-start bg-gray-800 text-gray-50">
+        <div class="flex flex-col bg-gray-800">
           <div class="m-5 h-full flex flex-col justify-start items-center">
             <div>This is where the file options are</div>
+            <div>Hello, this is another line</div>
           </div>
         </div>
-        <div class="mr-5 flex-1 min-w-150 max-w-full h-[98%] bg-gray-700 rounded-2xl">
-          <div class="m-5 max-w-full">
-            <div class="h-fit max-w-full p-1 text-2xl overflow-x-auto whitespace-nowrap bg-amber-900">This is where the current folder path will be displayed This is where the current folder path will be displayed This is where the current folder path will be displayed This is where the current folder path will be displayed</div>
-            This is where the files are going to be located in rows
+        <div class="h-full w-full flex-col justify-center items-center bg-gray-700 rounded-xl">
+          <div class="m-4 flex flex-col justify-center items-center ">
+            <div class="h-15 max-w-175 items-center justify-start flex overflow-x-auto whitespace-nowrap text-xl">John / My Documents / </div>
+            <div class="grid grid-cols-1 grid-rows-1 w-full">
+              <div class="grid grid-cols-4 place-items-center border-b border-gray-400 font-bold">
+                <div>Type</div>
+                <div>Name</div>
+                <div>Date Modified</div>
+                <div>Size</div>
+              </div>
+              <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer">
+                <div>Folder</div>
+                <div>Testing Folder</div>
+                <div>5/22/2026 1:02pm</div>
+                <div>23.2 GB</div>
+              </div>
+              <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer">
+                <div>Folder</div>
+                <div>Testing Folder</div>
+                <div>5/22/2026 1:02pm</div>
+                <div>23.2 GB</div>
+              </div>              
+              <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer">
+                <div>Folder</div>
+                <div>Testing Folder</div>
+                <div>5/22/2026 1:02pm</div>
+                <div>23.2 GB</div>
+              </div>              
+              <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer">
+                <div>Folder</div>
+                <div>Testing Folder</div>
+                <div>5/22/2026 1:02pm</div>
+                <div>23.2 GB</div>
+              </div>              
+            </div>
           </div>
+          <!-- <div class="m-20 h-full w-full grid grid-cols-1 grid-rows-[auto_auto_1fr] gap-2 rounded-2xl bg-sky-800">
+            <div class="w-full h-10 flex justify-center items-center text-2xl">Welcome, John</div>
+            <div class="h-fit w-fit text-xl overflow-x-auto whitespace-nowrap">Current Path: John/My Documents/ </div>
+            <div class="h-full w-max bg-amber-200">1</div>
+          </div> -->
         </div>
       </div>
     <%}%>
   </div>
-  
 
 </body>
 </html>
