@@ -1,4 +1,19 @@
 @layer theme, base, components, utilities;
 
+@import "tailwindcss";
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+body {
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+#modal {
+  width: 200px;
+  height: 200px;
+}
+
+#close-modal-btn {
+  width: 20px;
+  height: 20px;
+}
