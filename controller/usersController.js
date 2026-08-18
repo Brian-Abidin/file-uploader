@@ -1,5 +1,6 @@
 const { body } = require("express-validator");
 const multer = require("multer");
+const prisma = require("../lib/prisma");
 
 async function getIndex(req, res) {
   console.log(res.locals);
