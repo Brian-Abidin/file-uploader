@@ -10,16 +10,29 @@
     <% } else { %>
       <div class="mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
         <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800"> 
-          <button id="modalBtn" class="m-5 bg-gray-200 h-15 rounded-xl border-none active:bg-amber-500 cursor-pointer transition-colors">+ New</button>
-          <dialog id="modal" class="p-0 max-w-screen max-h-screen rounded-lg border-none">
+          <!-- button used to upload a new file in current directory -->
+          <button id="modalBtn-file" class="mb-1 mr-2 ml-2  bg-gray-200 h-15 rounded-xl border-none active:bg-amber-500 cursor-pointer transition-colors">+ New</button>
+          <dialog id="modal-file" class="p-0 max-w-screen max-h-screen rounded-lg border-none">
             <div class="w-full h-full flex justify-center items-center">
               <div class="w-full h-full flex flex-col items-center justify-center bg-amber-300">
-                <button id="close-modal-btn" class="w-20 h-10 bg-green-300">x</button>
+                <button id="close-modal-btn-file" class="w-20 h-10 bg-green-300">x</button>
                 <div class="w-fit bg-amber-500">Upload File</div>
                 <div class="w-fit ">New Folder</div>
               </div>
             </div>
           </dialog>
+          <!-- button used to create a new folder in current directory -->
+          <button id="modalBtn-folder" class="mb-2 mr-2 ml-2 bg-gray-200 h-15 rounded-xl border-none active:bg-amber-500 cursor-pointer transition-colors">+ New</button>
+          <dialog id="modal-folder" class="p-0 max-w-screen max-h-screen rounded-lg border-none">
+            <div class="w-full h-full flex justify-center items-center">
+              <div class="w-full h-full flex flex-col items-center justify-center bg-amber-300">
+                <button id="close-modal-btn-folder" class="w-20 h-10 bg-green-300">x</button>
+                <div class="w-fit bg-amber-500">Upload File</div>
+                <div class="w-fit ">New Folder</div>
+              </div>
+            </div>
+          </dialog>
+
           <div class="ml-5 mr-5 mb-5 h-full flex flex-col justify-start items-center ">
             <div class="w-full relative inline-block">
               <button id="dropdownBtn" class="h-5 w-full flex justify-start items-center cursor-pointer focus:outline-none bg-gray-100 border-none">
