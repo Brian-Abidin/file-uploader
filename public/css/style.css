@@ -8,14 +8,14 @@ body {
   font-family: "Helvetica Neue", sans-serif;
 }
 
-#modal {
+#modal-folder {
   width: 200px;
   height: 200px;
 }
 
-#close-modal-btn {
-  width: 20px;
-  height: 20px;
+#close-modal-btn-folder {
+  width: 16px;
+  height: 16px;
 }
 
 #dropdownMenu {
