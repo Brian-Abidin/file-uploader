@@ -3,6 +3,7 @@ const { Router } = require("express");
 const passport = require("passport");
 const usersController = require("../controller/usersController");
 const passportController = require("../config/passport");
+const { upload } = require("../config/multer");
 
 const UsersRouter = Router();
 
@@ -66,5 +67,7 @@ UsersRouter.post(
     failureMessage: true
   })
 );
+
+UsersRouter.post("/upload", upload.single("image"), usersController.postUpload);
 
 module.exports = UsersRouter;
