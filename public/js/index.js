@@ -24,10 +24,10 @@ dropdownBtn.addEventListener("click", (e) => {
 });
 
 // open file upload and create new folder modals
-modalBtnFile.addEventListener("click", () => {
-  modalFile.showModal();
-  console.log("hello?");
-});
+// modalBtnFile.addEventListener("click", () => {
+//   modalFile.showModal();
+//   console.log("hello?");
+// });
 
 modalBtnFolder.addEventListener("click", () => {
   modalFolder.showModal();
@@ -35,25 +35,25 @@ modalBtnFolder.addEventListener("click", () => {
 });
 
 // close file upload and create new folder modal
-closeModalBtnFile.addEventListener("click", () => {
-  modalFile.close();
-});
+// closeModalBtnFile.addEventListener("click", () => {
+//   modalFile.close();
+// });
 closeModalBtnFolder.addEventListener("click", () => {
   modalFolder.close();
 });
 
 // if user clicks on the backdrop area outside of modal the modal closes
-modalFile.addEventListener("click", (e) => {
-  const dialogDimensions = modalFile.getBoundingClientRect();
-  if (
-    e.clientX < dialogDimensions.left ||
-    e.clientX > dialogDimensions.right ||
-    e.clientY < dialogDimensions.top ||
-    e.clientY > dialogDimensions.bottom
-  ) {
-    modalFile.close();
-  }
-});
+// modalFile.addEventListener("click", (e) => {
+//   const dialogDimensions = modalFile.getBoundingClientRect();
+//   if (
+//     e.clientX < dialogDimensions.left ||
+//     e.clientX > dialogDimensions.right ||
+//     e.clientY < dialogDimensions.top ||
+//     e.clientY > dialogDimensions.bottom
+//   ) {
+//     modalFile.close();
+//   }
+// });
 
 modalFolder.addEventListener("click", (e) => {
   const dialogDimensions = modalFolder.getBoundingClientRect();
