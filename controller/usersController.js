@@ -29,9 +29,19 @@ async function getFailure(req, res) {
   res.render("failure", { errors });
 }
 
+async function postUpload(req, res) {
+  if (!req.file) {
+    res.status(404).send("No file uploaded");
+  }
+
+  console.log("File received:", req.file);
+  res.redirect("/");
+}
+
 module.exports = {
   getIndex,
   passwordConfirmation,
   getFailure,
-  getForm
+  getForm,
+  postUpload
 };
