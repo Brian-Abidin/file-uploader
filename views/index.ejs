@@ -12,10 +12,10 @@
         <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800"> 
           <!-- button used to upload a new file in current directory -->
           <div class="flex items-center justify-center w-full h-20">
-            <form class="h-full w-fit" action="/upload" method="POST" enctype="multipart/form-data">
-              <label class="flex flex-col items-center justify-center w-full h-full border-2 text-gray-950 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            <form id="uploadForm" class="h-full w-fit" action="/upload" method="POST" enctype="multipart/form-data">
+              <label for="fileInput" class="flex flex-col items-center justify-center w-full h-full border-2 text-gray-950 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                 Upload File
-                <input type="file" class="hidden" />
+                <input type="file" id="fileInput" name="image" onchange="this.form.submit()" />
               </label>
             </form>  
           </div>
