@@ -31,7 +31,7 @@ model Item {
   name String
   type ItemType
   mediaType String?
-  path Int[] @default([])
+  path String
   size Int?
   location String? 
   createdAt DateTime @default(now())
