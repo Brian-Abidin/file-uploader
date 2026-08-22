@@ -45,7 +45,7 @@ const serializeUser = (user, done) => {
 
 const deserializeUser = async (id, done) => {
   try {
-    const user = prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id }
     });
     // CODE BELOW IS FOR RAW QUERIES WITHOUT PRISMA
