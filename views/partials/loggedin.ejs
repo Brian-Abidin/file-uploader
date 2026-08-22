@@ -1,0 +1,96 @@
+<div class="mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
+    <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800"> 
+      <!-- button used to upload a new file in current directory -->
+      <div class="flex items-center justify-center w-full h-20">
+        <form id="uploadForm" class="h-full w-fit" action="/upload" method="POST" enctype="multipart/form-data">
+          <label for="fileInput" class="flex flex-col items-center justify-center w-full h-full border-2 text-gray-950 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            Upload File
+            <input type="file" id="fileInput" name="image" onchange="this.form.submit()" hidden />
+          </label>
+        </form>  
+      </div>
+      <!-- button used to create a new folder in current directory -->
+      <button id="modalBtn-folder" class="mb-2 mr-2 ml-2 bg-gray-200 h-15 rounded-xl border-none active:bg-amber-500 cursor-pointer transition-colors">New Folder</button>
+      <dialog id="modal-folder" class="p-0 max-w-screen max-h-screen rounded-lg border-none">
+        <div class="w-full h-full flex flex-col justify-center items-center">
+          <div class="w-full h-10 flex flex-col items-center justify-center bg-amber-300">
+            <button id="close-modal-btn-folder" class="w-10 h-10 flex justify-center items-center bg-green-300">x</button>
+            
+          </div>
+          <div class="flex-1 flex w-full h-full bg-amber-700 justify-center items-center">
+            <h5>New Folder</h5>
+            <button>Upload File</button>
+
+          </div>
+        </div>
+      </dialog>
+      <div class="ml-5 mr-5 mb-5 h-full flex flex-col justify-start items-center ">
+        <div class="w-full relative inline-block">
+          <button id="dropdownBtn" class="h-5 w-full flex justify-start items-center cursor-pointer focus:outline-none bg-gray-100 border-none">
+            <img id="dropdownIcon" class="w-4 h-4 rotate-270 transform transition-transform duration-300" src="/images/down.png" alt="arrow bracket">
+            <div>john</div>
+          </button>
+          <div id="dropdownMenu" class="w-full absolute right-0 origin-top transition-all duration-200 ease-in-out opacity-0 scale-y-0 pointer-events-none bg-gray-50 flex-col z-10">
+            <div class="flex justify-start items-center hover:bg-gray-100">
+              <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
+              <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
+            </div>
+            <div class="ml-1 flex justify-start items-center hover:bg-gray-100">
+              <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
+              <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
+            </div>
+            <div class="ml-2 flex justify-start items-center hover:bg-gray-100">
+              <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
+              <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
+            </div>
+            <div class="ml-3 flex justify-start items-center hover:bg-gray-100">
+              <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
+              <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
+      <div class="m-4 flex flex-col justify-center items-center ">
+        <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl">John > My Documents</div>
+        <div class="grid grid-cols-1 grid-rows-1 w-full">
+          <div class="grid grid-cols-4 place-items-center border-b border-gray-400 gap-0.5">
+            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Type</div>
+            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Name</div>
+            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Date Modified</div>
+            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Size</div>
+          </div>
+          <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+            <div>Folder</div>
+            <div>Testing Folder</div>
+            <div>5/22/2026 1:02pm</div>
+            <div>23.2 GB</div>
+          </div>
+          <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+            <div>Folder</div>
+            <div>Testing Folder</div>
+            <div>5/22/2026 1:02pm</div>
+            <div>23.2 GB</div>
+          </div>              
+          <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+            <div>Document</div>
+            <div>Test Document</div>
+            <div>5/22/2026 1:02pm</div>
+            <div>--</div>
+          </div>              
+          <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+            <div>Folder</div>
+            <div>Testing Folder</div>
+            <div>5/22/2026 1:02pm</div>
+            <div>23.2 GB</div>
+          </div>              
+        </div>
+      </div>
+      <!-- <div class="m-20 h-full w-full grid grid-cols-1 grid-rows-[auto_auto_1fr] gap-2 rounded-2xl bg-sky-800">
+        <div class="w-full h-10 flex justify-center items-center text-2xl">Welcome, John</div>
+        <div class="h-fit w-fit text-xl overflow-x-auto whitespace-nowrap">Current Path: John/My Documents/ </div>
+        <div class="h-full w-max bg-amber-200">1</div>
+      </div> -->
+    </div>
+</div>
