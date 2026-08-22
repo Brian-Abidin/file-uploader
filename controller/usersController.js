@@ -1,6 +1,7 @@
 const { body } = require("express-validator");
 const multer = require("multer");
 const prisma = require("../lib/prisma");
+const queries = require("../services/userService");
 
 async function getIndex(req, res) {
   console.log(res.locals);
@@ -33,8 +34,38 @@ async function postUpload(req, res) {
   if (!req.file) {
     res.status(404).send("No file uploaded");
   }
-
+  const now = new Date();
+  const formatted = now.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  });
   console.log("File received:", req.file);
+  console.log(
+    "CHECK",
+    "name:",
+    req.file.filename,
+    "type:",
+    req.file.mimetype,
+    "path:",
+    req.file.path,
+    "size:",
+    (req.file.size / (1024 * 1024)).toFixed(2),
+    "MB",
+    "date:",
+    formatted
+  );
+  console.log("USERRRR", req.user.id);
+  await queries.createNewFile(
+    req.file.filename,
+    "FILE",
+    req.file.mimetype,
+    req.file.path,
+    Number((req.file.size / (1024 * 1024)).toFixed(2)),
+    req.user.id
+  );
   res.redirect("/");
 }
 
