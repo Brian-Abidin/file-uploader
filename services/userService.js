@@ -13,6 +13,17 @@ async function createNewFile(name, type, mediaType, path, size, userId) {
   });
 }
 
+async function getFiles(userId) {
+  console.log("working?");
+  const items = await prisma.Item.findMany({
+    where: {
+      userId
+    }
+  });
+  return items;
+}
+
 module.exports = {
-  createNewFile
+  createNewFile,
+  getFiles
 };
