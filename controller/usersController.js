@@ -4,10 +4,31 @@ const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
 
 async function getIndex(req, res) {
+  const allFiles = await queries.getFiles(1);
+  const datesArr = [];
+  const sizesArr = [];
+  for (let i = 0; i < allFiles.length; i += 1) {
+    const date = allFiles[i].createdAt;
+    const { size } = allFiles[i];
+    const formattedSize = Number((size / (1024 * 1024)).toFixed(2));
+    const formattedDate = date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    });
+    sizesArr.push(formattedSize);
+    datesArr.push(formattedDate);
+  }
+  console.log(allFiles);
   console.log(res.locals);
   res.render("index", {
     greeting: "hello world",
-    user: req.user
+    user: req.user,
+    files: allFiles,
+    dates: datesArr,
+    sizes: sizesArr
   });
 }
 
@@ -63,7 +84,7 @@ async function postUpload(req, res) {
     "FILE",
     req.file.mimetype,
     req.file.path,
-    Number((req.file.size / (1024 * 1024)).toFixed(2)),
+    req.file.size,
     req.user.id
   );
   res.redirect("/");
