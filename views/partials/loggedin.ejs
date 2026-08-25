@@ -84,7 +84,15 @@
             <div>Testing Folder</div>
             <div>5/22/2026 1:02pm</div>
             <div>23.2 GB</div>
-          </div>              
+          </div>
+          <% for(let i = 0; i < files.length; i++ ) { %>
+            <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+              <div><%= files[i].type %></div>
+              <div><%= files[i].name %></div>
+              <div><%= dates[i] %></div>
+              <div><%= sizes[i] %> MB</div>
+            </div>              
+          <%} %>              
         </div>
       </div>
       <!-- <div class="m-20 h-full w-full grid grid-cols-1 grid-rows-[auto_auto_1fr] gap-2 rounded-2xl bg-sky-800">
