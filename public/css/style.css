@@ -23,6 +23,6 @@ body {
   overflow-y: auto;
 }
 
-a:hover {
+#link-logout:hover {
   color: gray;
 }
