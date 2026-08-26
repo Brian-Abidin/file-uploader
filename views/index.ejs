@@ -6,7 +6,6 @@
       <%- include('partials/header') %>
       <% if (locals.user) {%>
         <%- include('partials/loggedin') %>
-        <a href="/log-out">LOG OUT</a>
       <% } else { %>
         <%- include('partials/login') %>
       <%}%>
