@@ -4,6 +4,11 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@theme {
+  --breakpoint-sm: 31rem;
+  --breakpoint-md: 56rem;
+}
+
 body {
   font-family: "Helvetica Neue", sans-serif;
 }
