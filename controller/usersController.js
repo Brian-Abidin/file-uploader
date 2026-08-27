@@ -3,14 +3,20 @@ const multer = require("multer");
 const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
 
-async function getIndex(req, res) {
-  const allFiles = await queries.getFiles(1);
-  const datesArr = [];
+function formatFileSizes(files) {
   const sizesArr = [];
-  for (let i = 0; i < allFiles.length; i += 1) {
-    const date = allFiles[i].createdAt;
-    const { size } = allFiles[i];
+  for (let i = 0; i < files.length; i += 1) {
+    const { size } = files[i];
     const formattedSize = Number((size / (1024 * 1024)).toFixed(2));
+    sizesArr.push(formattedSize);
+  }
+  return sizesArr;
+}
+
+function formatFileDates(files) {
+  const datesArr = [];
+  for (let i = 0; i < files.length; i += 1) {
+    const date = files[i].createdAt;
     const formattedDate = date.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
@@ -18,9 +24,16 @@ async function getIndex(req, res) {
       minute: "2-digit",
       hour12: true
     });
-    sizesArr.push(formattedSize);
     datesArr.push(formattedDate);
   }
+  return datesArr;
+}
+
+async function getIndex(req, res) {
+  const allFiles = await queries.getFiles(1);
+  const datesArr = formatFileDates(allFiles);
+  const sizesArr = formatFileSizes(allFiles);
+
   console.log(allFiles);
   console.log(res.locals);
   res.render("index", {
