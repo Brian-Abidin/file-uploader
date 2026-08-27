@@ -53,13 +53,13 @@
     </div>
     <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
       <div class="m-4 flex flex-col justify-center items-center ">
-        <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl">John > My Documents</div>
+        <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl">Current Directory: <%= user.username %></div>
         <div class="grid grid-cols-1 grid-rows-1 w-full">
           <div class="grid grid-cols-4 place-items-center border-b border-gray-400 gap-0.5">
-            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Type</div>
-            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Name</div>
-            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Date Modified</div>
-            <div class="w-full flex justify-center items-center text-gray-950 bg-gray-300">Size</div>
+            <div class="w-full h-5 flex justify-center items-center text-gray-950 bg-gray-300"><h5 class="h-fit sm:text-2xl md:text-xl">Type</h5></div>
+            <div class="w-full h-5 flex justify-center items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Name</h5></div>
+            <div class="w-full h-5 flex justify-center items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Date Modified</h5></div>
+            <div class="w-full h-5 flex justify-center items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Size</h5></div>
           </div>
           <% for(let i = 0; i < files.length; i++ ) { %>
             <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
