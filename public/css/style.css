@@ -4,6 +4,8 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@source "../views/**/*.ejs";
+
 @theme {
   --breakpoint-sm: 31rem;
   --breakpoint-md: 56rem;
