@@ -20,11 +20,6 @@ body {
   height: 200px;
 }
 
-#close-modal-btn-folder {
-  width: 16px;
-  height: 16px;
-}
-
 #dropdownMenu {
   max-height: 200px;
   overflow-y: auto;
