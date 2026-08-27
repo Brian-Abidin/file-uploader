@@ -17,7 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "build:css": "tailwindcss -i ./public/style.css -o ./dist/output.css --watch",
+    "build:css": "tailwindcss -i ./public/css/style.css -o ./dist/output.css --watch",
     "dev": "concurrently \"npm:build:css\" \"npm:start\""
   },
   "dependencies": {
