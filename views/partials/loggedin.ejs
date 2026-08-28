@@ -16,12 +16,10 @@
         <div class="w-full h-full flex flex-col justify-center items-center ">
           <!-- modal upper content -->
           <div class="w-full h-5 flex items-center justify-end">
-            <button id="close-modal-btn-folder" class="h-5 w-8 flex justify-center items-center bg-gray-950 rounded-md border-gray-950 border-2 hover:cursor-pointer">x</button>
+            <button id="close-modal-btn-folder" class="h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
           </div>
           <!-- modal bottom content -->
           <div class="flex-1 flex w-full h-full  justify-center items-center">
-            <!-- <h5>New Folder</h5>
-            <button class="">Upload File</button> -->
             <form class="flex flex-col gap-2" action="/">
               <label class="text-xl" for="folder">New Folder:</label>
               <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text">
@@ -70,7 +68,7 @@
             <div class="w-full h-5 flex justify-center items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Size</h5></div>
           </div>
           <% for(let i = 0; i < files.length; i++ ) { %>
-            <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs hover:bg-gray-900 hover:cursor-pointer">
+            <div class="h-8 grid grid-cols-4 place-items-center border-b border-gray-400 text-xs md:text-sm hover:bg-gray-900 hover:cursor-pointer">
               <div><%= files[i].type %></div>
               <div><%= files[i].name %></div>
               <div><%= dates[i] %></div>
