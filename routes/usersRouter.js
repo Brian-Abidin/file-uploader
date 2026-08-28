@@ -69,5 +69,6 @@ UsersRouter.post(
 );
 
 UsersRouter.post("/upload", upload.single("image"), usersController.postUpload);
+UsersRouter.post("/newfolder", usersController.postFolder);
 
 module.exports = UsersRouter;
