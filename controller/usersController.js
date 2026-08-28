@@ -103,10 +103,17 @@ async function postUpload(req, res) {
   res.redirect("/");
 }
 
+async function postFolder(req, res) {
+  const folderName = req.body.folder;
+  //  create await to make new folder and add properties
+  res.redirect("/");
+}
+
 module.exports = {
   getIndex,
   passwordConfirmation,
   getFailure,
   getForm,
-  postUpload
+  postUpload,
+  postFolder
 };
