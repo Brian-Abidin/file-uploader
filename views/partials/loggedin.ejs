@@ -1,7 +1,7 @@
 <div class="mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
     <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800"> 
       <!-- button used to upload a new file in current directory -->
-      <div class="m-2 flex items-center justify-center h-15 bg-gray-500 rounded-xl text-gray-50 hover:bg-gray-700">
+      <div class="m-2 flex items-center justify-center h-15 bg-gray-500 rounded-xl text-gray-50 hover:bg-gray-700 hover:border-2 hover:border-gray-50">
         <form id="uploadForm" class="h-full w-full" action="/upload" method="POST" enctype="multipart/form-data">
           <label for="fileInput" class="flex flex-col items-center justify-center w-full h-full hover:cursor-pointer">
             Upload File
@@ -10,8 +10,8 @@
         </form>  
       </div>
       <!-- button used to create a new folder in current directory -->
-      <button id="modalBtn-folder" class="m-2 bg-gray-500 h-15 rounded-xl border-none cursor-pointer transition-colors hover:bg-gray-700">New Folder</button>
-      <dialog id="modal-folder" class="m-auto p-2 max-w-screen max-h-screen inset-0 fixed bg-gray-800 text-gray-50 rounded-lg ">
+      <button id="modalBtn-folder" class="m-2 bg-gray-500 h-15 rounded-xl cursor-pointer transition-colors hover:bg-gray-700 hover:border-2 hover:border-gray-50">New Folder</button>
+      <dialog id="modal-folder" class="m-auto p-2 max-w-screen max-h-screen inset-0 fixed bg-gray-800 text-gray-50 rounded-lg border-2 border-gray-400">
         <!-- inside modal after clicking new folder -->
         <div class="w-full h-full flex flex-col justify-center items-center ">
           <!-- modal upper content -->
@@ -20,9 +20,9 @@
           </div>
           <!-- modal bottom content -->
           <div class="flex-1 flex w-full h-full  justify-center items-center">
-            <form class="flex flex-col gap-2" action="/">
+            <form class="flex flex-col gap-2" action="/newfolder" method="POST">
               <label class="text-xl" for="folder">New Folder:</label>
-              <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text">
+              <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text" placeholder="new folder">
               <button class="mt-3 h-8 w-full bg-gray-500 rounded-sm hover:cursor-pointer hover:bg-gray-700">Submit</button>
             </form>
           </div>
