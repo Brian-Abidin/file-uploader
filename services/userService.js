@@ -23,7 +23,36 @@ async function getFiles(userId) {
   return items;
 }
 
+async function createNewFolder(
+  name,
+  type,
+  path,
+  size,
+  location,
+  parentId,
+  parent,
+  children,
+  userId
+) {
+  await prisma.item.create({
+    data: {
+      name,
+      type,
+      path,
+      size,
+      location,
+      parentId,
+      parent,
+      children,
+      userId
+    }
+  });
+}
+
+// async function deleteFolder(folderId) {}
+
 module.exports = {
   createNewFile,
-  getFiles
+  getFiles,
+  createNewFolder
 };
