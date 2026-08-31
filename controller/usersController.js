@@ -30,19 +30,29 @@ function formatFileDates(files) {
 }
 
 async function getIndex(req, res) {
-  const allFiles = await queries.getFiles(1);
-  const datesArr = formatFileDates(allFiles);
-  const sizesArr = formatFileSizes(allFiles);
+  if (req.isAuthenticated()) {
+    const allFiles = await queries.getFiles(1);
+    const datesArr = formatFileDates(allFiles);
+    const sizesArr = formatFileSizes(allFiles);
 
-  console.log(allFiles);
-  console.log(res.locals);
-  res.render("index", {
-    greeting: "hello world",
-    user: req.user,
-    files: allFiles,
-    dates: datesArr,
-    sizes: sizesArr
-  });
+    console.log(allFiles);
+    console.log(res.locals);
+    console.log(req.path, "NEW@@@@@");
+
+    const currPath = req.user;
+    console.log("PAHHTHTH");
+
+    res.render("index", {
+      greeting: "hello world",
+      user: req.user,
+      currPath,
+      files: allFiles,
+      dates: datesArr,
+      sizes: sizesArr
+    });
+  } else {
+    res.render("index");
+  }
 }
 
 function passwordConfirmation() {
@@ -103,9 +113,29 @@ async function postUpload(req, res) {
   res.redirect("/");
 }
 
+function getCurrPath(path) {
+  const pathId = path.replaceAll("/", "");
+  if (pathId) {
+    // get root directory
+    const currPath = req.user;
+  } else {
+    // using pathId, get current directory
+  }
+}
+
 async function postFolder(req, res) {
   const folderName = req.body.folder;
-  //  create await to make new folder and add properties
+  const path = req.body["page-path"];
+  console.log("HRESRESRHEH", folderName, typeof getCurrPath(path));
+
+  // console.log("HEREeEEE", newPath);
+
+  // await queries.createNewFolder(
+  //   folderName,
+  //   "FOLDER",
+  //   req.file.path, // need to get current directory ex. test/
+  //   0
+  // );
   res.redirect("/");
 }
 
