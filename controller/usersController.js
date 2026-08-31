@@ -29,11 +29,20 @@ function formatFileDates(files) {
   return datesArr;
 }
 
+async function checkUserItems(username) {
+  const user = await queries.getUserByUsername(username);
+  const itemCount = await queries.countUserItemsByUserId(user.id);
+  return itemCount;
+}
+
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
-    const allFiles = await queries.getFiles(1);
+    const allFiles = await queries.getFilesByUserId(1);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
+
+    const count = await checkUserItems(req.user.username);
+    console.log(count, "COUNT IS RIGHT HERE");
 
     console.log(allFiles);
     console.log(res.locals);
@@ -113,20 +122,22 @@ async function postUpload(req, res) {
   res.redirect("/");
 }
 
-function getCurrPath(path) {
+async function getCurrPath(path, root) {
   const pathId = path.replaceAll("/", "");
   if (pathId) {
-    // get root directory
-    const currPath = req.user;
-  } else {
     // using pathId, get current directory
+    const folder = await queries.getFolderById(Number(pathId));
+    const currPath = await queries.getParentPathByParentId(folder.parentId);
+    return currPath;
   }
+  // get root directory
+  return root;
 }
 
 async function postFolder(req, res) {
   const folderName = req.body.folder;
   const path = req.body["page-path"];
-  console.log("HRESRESRHEH", folderName, typeof getCurrPath(path));
+  console.log("HRESRESRHEH", folderName, getCurrPath(path, req.user.username));
 
   // console.log("HEREeEEE", newPath);
 
