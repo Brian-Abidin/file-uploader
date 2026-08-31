@@ -7,7 +7,8 @@ async function createNewFile(
   path,
   size,
   location,
-  userId
+  userId,
+  parentId
 ) {
   await prisma.item.create({
     data: {
@@ -17,7 +18,8 @@ async function createNewFile(
       path,
       size,
       location,
-      userId
+      userId,
+      parentId
     }
   });
 }
