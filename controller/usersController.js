@@ -48,22 +48,32 @@ async function setupInitialLogin(user) {
   return "User is already setup.";
 }
 
-async function getCurrentPath(path) {
-  const onlyPath = path.replaceAll("/", "");
-  const pathId = Number(onlyPath);
-  let currentPath = "";
-  if (pathId === 0) {
-    currentPath = "/";
-  } else {
-    const folder = await queries.getFolderById(pathId);
-    currentPath = folder.id;
+// function findFullPath(startPath, root) {
+//   const currPath = `${startPath}`;
+
+//   if (startPath === root) {
+//     return null;
+//   }
+
+// }
+
+async function getCurrPath(folderId, root) {
+  const formattedFolderId = folderId.replaceAll("/", "");
+  console.log(formattedFolderId, "IDDDD");
+  if (formattedFolderId) {
+    // using pathId, get current directory
+    const folder = await queries.getFolderById(Number(formattedFolderId));
+    const currPath = folder.path;
+    return currPath;
   }
-  return currentPath;
+  // get root directory
+  return root;
 }
 
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
-    const allFiles = await queries.getFilesByUserId(1);
+    const currFolderId = Number(req.path.replaceAll("/", ""));
+    const allFiles = await queries.getFilesByFileId(currFolderId);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
@@ -73,7 +83,8 @@ async function getIndex(req, res) {
     console.log(res.locals);
     console.log(req.path, "NEW@@@@@");
 
-    const currPath = await getCurrentPath(req.path);
+    const currPath = await getCurrPath(req.path, "/");
+    console.log(currPath);
     console.log("PAHHTHTH");
 
     res.render("index", {
@@ -147,31 +158,31 @@ async function postUpload(req, res) {
   res.redirect("/");
 }
 
-async function getCurrPath(path, root) {
-  const pathId = path.replaceAll("/", "");
-  if (pathId) {
-    // using pathId, get current directory
-    const folder = await queries.getFolderById(Number(pathId));
-    const currPath = await queries.getParentPathByParentId(folder.parentId);
-    return currPath;
-  }
-  // get root directory
-  return root;
-}
-
 async function postFolder(req, res) {
   const folderName = req.body.folder;
   const path = req.body["page-path"];
-  console.log("HRESRESRHEH", folderName, getCurrPath(path, req.user.username));
+  const currPath = await getCurrPath(path, "/");
+  const formattedPath = currPath.replace("/", "");
+  let parentId = Number(path.replaceAll("/", ""));
+  if (parentId === 0) {
+    parentId = await queries.getItemIdByPath(path);
+  }
+
+  console.log("HRESRESRHEH", folderName, await getCurrPath(path, "/"));
 
   // console.log("HEREeEEE", newPath);
 
-  // await queries.createNewFolder(
-  //   folderName,
-  //   "FOLDER",
-  //   req.file.path, // need to get current directory ex. test/
-  //   0
-  // );
+  await queries.createNewFolder(
+    folderName,
+    "FOLDER",
+    `${formattedPath}/${folderName}`, // need to get current directory ex. test/
+    0,
+    currPath,
+    parentId,
+    req.user.id
+  );
+
+  // await queries.createNewFolder(folderName, "FOLDER");
   res.redirect("/");
 }
 
