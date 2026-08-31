@@ -10,6 +10,10 @@ const modalBtnFolder = document.getElementById("modalBtn-folder");
 const modalFolder = document.getElementById("modal-folder");
 const closeModalBtnFolder = document.getElementById("close-modal-btn-folder");
 
+const pagePath = document.getElementById("page-path");
+
+pagePath.value = window.location.pathname;
+
 dropdownBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   dropdownMenu.classList.toggle("opacity-0");
