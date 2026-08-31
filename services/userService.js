@@ -72,8 +72,6 @@ async function createNewFolder(
   size,
   location,
   parentId,
-  parent,
-  children,
   userId
 ) {
   await prisma.item.create({
@@ -84,8 +82,6 @@ async function createNewFolder(
       size,
       location,
       parentId,
-      parent,
-      children,
       userId
     }
   });
