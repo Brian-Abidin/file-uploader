@@ -48,6 +48,19 @@ async function setupInitialLogin(user) {
   return "User is already setup.";
 }
 
+async function getCurrentPath(path) {
+  const onlyPath = path.replaceAll("/", "");
+  const pathId = Number(onlyPath);
+  let currentPath = "";
+  if (pathId === 0) {
+    currentPath = "/";
+  } else {
+    const folder = await queries.getFolderById(pathId);
+    currentPath = folder.id;
+  }
+  return currentPath;
+}
+
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
     const allFiles = await queries.getFilesByUserId(1);
@@ -60,7 +73,7 @@ async function getIndex(req, res) {
     console.log(res.locals);
     console.log(req.path, "NEW@@@@@");
 
-    const currPath = req.user;
+    const currPath = await getCurrentPath(req.path);
     console.log("PAHHTHTH");
 
     res.render("index", {
