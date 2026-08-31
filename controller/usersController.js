@@ -13,6 +13,10 @@ function formatFileSizes(files) {
   return sizesArr;
 }
 
+async function createRootFolder(userId) {
+  await queries.createNewFolder("/", "FOLDER", "/", 0, "/", null, userId);
+}
+
 function formatFileDates(files) {
   const datesArr = [];
   for (let i = 0; i < files.length; i += 1) {
@@ -35,14 +39,22 @@ async function checkUserItems(username) {
   return itemCount;
 }
 
+async function setupInitialLogin(user) {
+  const count = await checkUserItems(user.username);
+  if (count === 0) {
+    await createRootFolder(user.id);
+    return "Initial user setup complete. Welcome!";
+  }
+  return "User is already setup.";
+}
+
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
     const allFiles = await queries.getFilesByUserId(1);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
-    const count = await checkUserItems(req.user.username);
-    console.log(count, "COUNT IS RIGHT HERE");
+    console.log("GREETING", await setupInitialLogin(req.user));
 
     console.log(allFiles);
     console.log(res.locals);
