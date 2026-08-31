@@ -125,7 +125,14 @@ async function getFailure(req, res) {
 }
 
 async function postUpload(req, res) {
-  const path = getCurrPath(req.path, "/");
+  const path = req.body["page-path"];
+  const currPath = await getCurrPath(path, "/");
+  const formattedPath = currPath.replace("/", "");
+  let parentId = Number(path.replaceAll("/", ""));
+  if (parentId === 0) {
+    parentId = await queries.getItemIdByPath(path);
+  }
+
   if (!req.file) {
     res.status(404).send("No file uploaded");
   }
@@ -157,10 +164,11 @@ async function postUpload(req, res) {
     req.file.filename,
     "FILE",
     req.file.mimetype,
-    path,
-    req.file.size,
     `${path}/${req.file.filename}`,
-    req.user.id
+    req.file.size,
+    formattedPath,
+    req.user.id,
+    parentId
   );
   res.redirect("/");
 }
