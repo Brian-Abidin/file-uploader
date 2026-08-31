@@ -1,6 +1,14 @@
 const prisma = require("../lib/prisma");
 
-async function createNewFile(name, type, mediaType, path, size, userId) {
+async function createNewFile(
+  name,
+  type,
+  mediaType,
+  path,
+  size,
+  location,
+  userId
+) {
   await prisma.item.create({
     data: {
       name,
@@ -8,6 +16,7 @@ async function createNewFile(name, type, mediaType, path, size, userId) {
       mediaType,
       path,
       size,
+      location,
       userId
     }
   });
@@ -88,6 +97,17 @@ async function getItemIdByPath(path) {
   });
   return item.id;
 }
+async function getAllItemsByPath(path) {
+  const items = await prisma.Item.findMany({
+    where: {
+      location: path,
+      parentId: {
+        not: null
+      }
+    }
+  });
+  return items;
+}
 
 async function addChild() {
   // get current directory
@@ -126,5 +146,6 @@ module.exports = {
   getParentPathByParentId,
   getUserByUsername,
   countUserItemsByUserId,
-  getItemIdByPath
+  getItemIdByPath,
+  getAllItemsByPath
 };
