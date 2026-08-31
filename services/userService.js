@@ -23,6 +23,19 @@ async function getFiles(userId) {
   return items;
 }
 
+async function getFolderById(folderId) {
+  const folder = await prisma.Item.findUnique({
+    where: {
+      id: folderId
+    }
+  });
+  return folder;
+}
+
+async function addChild() {
+  // get current directory
+}
+
 async function createNewFolder(
   name,
   type,
@@ -54,5 +67,6 @@ async function createNewFolder(
 module.exports = {
   createNewFile,
   getFiles,
-  createNewFolder
+  createNewFolder,
+  getFolderById
 };
