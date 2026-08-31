@@ -110,6 +110,14 @@ async function getAllItemsByPath(path) {
   });
   return items;
 }
+async function getAllItemsByParentId(id) {
+  const items = await prisma.Item.findMany({
+    where: {
+      parentId: id
+    }
+  });
+  return items;
+}
 
 async function addChild() {
   // get current directory
@@ -149,5 +157,6 @@ module.exports = {
   getUserByUsername,
   countUserItemsByUserId,
   getItemIdByPath,
-  getAllItemsByPath
+  getAllItemsByPath,
+  getAllItemsByParentId
 };
