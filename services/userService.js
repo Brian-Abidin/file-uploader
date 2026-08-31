@@ -24,6 +24,17 @@ async function getFilesByUserId(userId) {
   return items;
 }
 
+async function getFilesByFileId(fileId) {
+  console.log("working?");
+  const items = await prisma.Item.findMany({
+    where: {
+      id: fileId,
+      type: "FILE"
+    }
+  });
+  return items;
+}
+
 async function getFolderById(folderId) {
   const folder = await prisma.Item.findUnique({
     where: {
@@ -61,6 +72,23 @@ async function countUserItemsByUserId(userId) {
   return count;
 }
 
+// async function getParentPathByPath(path){
+//   const path = await prisma.Item.findFirst({
+//     where: {
+
+//     }
+//   })
+// }
+
+async function getItemIdByPath(path) {
+  const item = await prisma.Item.findFirst({
+    where: {
+      path
+    }
+  });
+  return item.id;
+}
+
 async function addChild() {
   // get current directory
 }
@@ -92,9 +120,11 @@ async function createNewFolder(
 module.exports = {
   createNewFile,
   getFilesByUserId,
+  getFilesByFileId,
   createNewFolder,
   getFolderById,
   getParentPathByParentId,
   getUserByUsername,
-  countUserItemsByUserId
+  countUserItemsByUserId,
+  getItemIdByPath
 };
