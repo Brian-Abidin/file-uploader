@@ -3,6 +3,7 @@
       <!-- button used to upload a new file in current directory -->
       <div class="m-2 flex items-center justify-center h-15 bg-gray-500 rounded-xl text-gray-50 hover:bg-gray-700 hover:border-2 hover:border-gray-50">
         <form id="uploadForm" class="h-full w-full" action="/upload" method="POST" enctype="multipart/form-data">
+          <input class="hidden" id="page-path" name="page-path" type="text">
           <label for="fileInput" class="flex flex-col items-center justify-center w-full h-full hover:cursor-pointer">
             Upload File
             <input type="file" id="fileInput" name="image" onchange="this.form.submit()" hidden />
