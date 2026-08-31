@@ -61,8 +61,10 @@ async function getCurrPath(folderId, root) {
   const formattedFolderId = folderId.replaceAll("/", "");
   console.log(formattedFolderId, "IDDDD");
   if (formattedFolderId) {
+    console.log("HELLOOOOOO");
     // using pathId, get current directory
     const folder = await queries.getFolderById(Number(formattedFolderId));
+    console.log(folder);
     const currPath = folder.path;
     return currPath;
   }
@@ -77,8 +79,9 @@ async function getIndex(req, res) {
     if (currFolderId === 0) {
       allFiles = await queries.getAllItemsByPath(req.path);
     } else {
-      allFiles = await queries.getFilesByFileId(currFolderId);
+      allFiles = await queries.getAllItemsByParentId(currFolderId);
     }
+    console.log(allFiles, currFolderId, "DFSFES");
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
@@ -126,6 +129,7 @@ async function getFailure(req, res) {
 
 async function postUpload(req, res) {
   const path = req.body["page-path"];
+  const folderId = path.replaceAll("/", "");
   const currPath = await getCurrPath(path, "/");
   const formattedPath = currPath.replace("/", "");
   let parentId = Number(path.replaceAll("/", ""));
@@ -164,13 +168,13 @@ async function postUpload(req, res) {
     req.file.filename,
     "FILE",
     req.file.mimetype,
-    `${path}/${req.file.filename}`,
+    `${formattedPath}/${req.file.filename}`,
     req.file.size,
-    formattedPath,
+    currPath,
     req.user.id,
     parentId
   );
-  res.redirect("/");
+  res.redirect(`/${folderId}`);
 }
 
 async function postFolder(req, res) {
