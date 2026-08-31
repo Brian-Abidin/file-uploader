@@ -73,7 +73,12 @@ async function getCurrPath(folderId, root) {
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
     const currFolderId = Number(req.path.replaceAll("/", ""));
-    const allFiles = await queries.getFilesByFileId(currFolderId);
+    let allFiles = "";
+    if (currFolderId === 0) {
+      allFiles = await queries.getAllItemsByPath(req.path);
+    } else {
+      allFiles = await queries.getFilesByFileId(currFolderId);
+    }
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
@@ -120,6 +125,7 @@ async function getFailure(req, res) {
 }
 
 async function postUpload(req, res) {
+  const path = getCurrPath(req.path, "/");
   if (!req.file) {
     res.status(404).send("No file uploaded");
   }
@@ -151,8 +157,9 @@ async function postUpload(req, res) {
     req.file.filename,
     "FILE",
     req.file.mimetype,
-    req.file.path,
+    path,
     req.file.size,
+    `${path}/${req.file.filename}`,
     req.user.id
   );
   res.redirect("/");
