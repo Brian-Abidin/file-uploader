@@ -57,43 +57,56 @@ async function setupInitialLogin(user) {
 
 // }
 
-async function getCurrPath(folderId, root) {
-  const formattedFolderId = folderId.replaceAll("/", "");
-  console.log(formattedFolderId, "IDDDD");
-  if (formattedFolderId) {
-    console.log("HELLOOOOOO");
-    // using pathId, get current directory
-    const folder = await queries.getFolderById(Number(formattedFolderId));
-    console.log(folder);
-    const currPath = folder.path;
-    return currPath;
-  }
-  // get root directory
-  return root;
+async function getCurrPath(folderId) {
+  // using pathId, get current directory
+  const folder = await queries.getFolderById(Number(folderId));
+  console.log(folder);
+  const currPath = folder.path;
+  return currPath;
 }
 
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
-    const currFolderId = Number(req.path.replaceAll("/", ""));
-    let allFiles = "";
-    if (currFolderId === 0) {
-      allFiles = await queries.getAllItemsByPath(req.path);
-    } else {
-      allFiles = await queries.getAllItemsByParentId(currFolderId);
-    }
-    console.log(allFiles, currFolderId, "DFSFES");
+    // check if root folder is established
+    console.log("GREETING", await setupInitialLogin(req.user));
+    res.redirect("/folders");
+  } else {
+    res.render("index");
+  }
+}
+
+async function getRootFolder(req, res) {
+  if (req.isAuthenticated()) {
+    const allFiles = await queries.getAllItemsByPath("/");
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
-    console.log("GREETING", await setupInitialLogin(req.user));
+    res.render("index", {
+      greeting: "hello world",
+      user: req.user,
+      currPath: "/",
+      files: allFiles,
+      dates: datesArr,
+      sizes: sizesArr
+    });
+  } else {
+    res.render("index");
+  }
+}
 
-    console.log(allFiles);
-    console.log(res.locals);
-    console.log(req.path, "NEW@@@@@");
+async function getFolders(req, res) {
+  if (req.isAuthenticated()) {
+    const id = Number(req.params.id);
+    const allFiles = await queries.getAllItemsByParentId(id);
+    const datesArr = formatFileDates(allFiles);
+    const sizesArr = formatFileSizes(allFiles);
 
-    const currPath = await getCurrPath(req.path, "/");
-    console.log(currPath);
-    console.log("PAHHTHTH");
+    // console.log(allFiles);
+    // console.log(res.locals, "WHAT IS THIS");
+
+    const currPath = await getCurrPath(id);
+    // console.log(currPath);
+    // console.log("PAHHTHTH");
 
     res.render("index", {
       greeting: "hello world",
@@ -129,84 +142,89 @@ async function getFailure(req, res) {
 
 async function postUpload(req, res) {
   const path = req.body["page-path"];
-  const folderId = path.replaceAll("/", "");
-  const currPath = await getCurrPath(path, "/");
-  const formattedPath = currPath.replace("/", "");
-  let parentId = Number(path.replaceAll("/", ""));
-  if (parentId === 0) {
-    parentId = await queries.getItemIdByPath(path);
-  }
+  const currFolderId = path.replace(/\D/g, "");
+  let parentId = "";
+  let currPath = "";
 
   if (!req.file) {
     res.status(404).send("No file uploaded");
   }
-  const now = new Date();
-  const formatted = now.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true
-  });
-  console.log("File received:", req.file);
-  console.log(
-    "CHECK",
-    "name:",
-    req.file.filename,
-    "type:",
-    req.file.mimetype,
-    "path:",
-    req.file.path,
-    "size:",
-    (req.file.size / (1024 * 1024)).toFixed(2),
-    "MB",
-    "date:",
-    formatted
-  );
-  console.log("USERRRR", req.user.id);
-  await queries.createNewFile(
-    req.file.filename,
-    "FILE",
-    req.file.mimetype,
-    `${formattedPath}/${req.file.filename}`,
-    req.file.size,
-    currPath,
-    req.user.id,
-    parentId
-  );
-  res.redirect(`/${folderId}`);
+
+  // means root directory
+  if (currFolderId.length === 0) {
+    parentId = await queries.getItemIdByPath("/");
+
+    await queries.createNewFile(
+      req.file.filename,
+      "FILE",
+      req.file.mimetype,
+      `/${req.file.filename}`,
+      req.file.size,
+      "/",
+      req.user.id,
+      parentId
+    );
+  } else {
+    // file not root directory
+    parentId = Number(currFolderId);
+    currPath = await getCurrPath(currFolderId);
+
+    await queries.createNewFile(
+      req.file.filename,
+      "FILE",
+      req.file.mimetype,
+      `${currPath}/${req.file.filename}`,
+      req.file.size,
+      currPath,
+      req.user.id,
+      parentId
+    );
+  }
+  res.redirect(`/folders/${currFolderId}`);
 }
 
 async function postFolder(req, res) {
   const folderName = req.body.folder;
-  const path = req.body["page-path"];
-  const currPath = await getCurrPath(path, "/");
-  const formattedPath = currPath.replace("/", "");
-  let parentId = Number(path.replaceAll("/", ""));
-  if (parentId === 0) {
-    parentId = await queries.getItemIdByPath(path);
+  const path = req.body["page-path-folder"];
+  const currFolderId = path.replace(/\D/g, "");
+  let parentId = "";
+  let currPath = "";
+  console.log(path, currFolderId, "THISSSSSS");
+  if (currFolderId.length === 0) {
+    parentId = await queries.getItemIdByPath("/");
+
+    await queries.createNewFolder(
+      folderName,
+      "FOLDER",
+      `/${folderName}`,
+      0,
+      "/",
+      parentId,
+      req.user.id
+    );
+  } else {
+    parentId = Number(currFolderId);
+    currPath = await getCurrPath(currFolderId);
+    console.log(currPath, "UMMMMMMMMMMMM");
+
+    await queries.createNewFolder(
+      folderName,
+      "FOLDER",
+      `${currPath}/${folderName}`, // need to get current directory ex. test/
+      0,
+      currPath,
+      parentId,
+      req.user.id
+    );
   }
 
-  console.log("HRESRESRHEH", folderName, await getCurrPath(path, "/"));
-
-  // console.log("HEREeEEE", newPath);
-
-  await queries.createNewFolder(
-    folderName,
-    "FOLDER",
-    `${formattedPath}/${folderName}`, // need to get current directory ex. test/
-    0,
-    currPath,
-    parentId,
-    req.user.id
-  );
-
-  // await queries.createNewFolder(folderName, "FOLDER");
-  res.redirect("/");
+  res.redirect(`/folders/${currFolderId}`);
 }
 
 module.exports = {
   getIndex,
+  getRootFolder,
+  getFolders,
   passwordConfirmation,
   getFailure,
   getForm,
