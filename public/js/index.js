@@ -11,8 +11,10 @@ const modalFolder = document.getElementById("modal-folder");
 const closeModalBtnFolder = document.getElementById("close-modal-btn-folder");
 
 const pagePath = document.getElementById("page-path");
+const pagePathFolder = document.getElementById("page-path-folder");
 
 pagePath.value = window.location.pathname;
+pagePathFolder.value = window.location.pathname;
 
 dropdownBtn.addEventListener("click", (e) => {
   e.stopPropagation();
