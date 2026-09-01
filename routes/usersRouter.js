@@ -8,7 +8,8 @@ const { upload } = require("../config/multer");
 const UsersRouter = Router();
 
 UsersRouter.get("/", usersController.getIndex);
-UsersRouter.get("/:id", usersController.getIndex);
+UsersRouter.get("/folders", usersController.getRootFolder);
+UsersRouter.get("/folders/:id", usersController.getFolders);
 UsersRouter.get("/sign-up", usersController.getForm);
 UsersRouter.get("/failure", usersController.getFailure);
 UsersRouter.get("/log-out", passportController.logoutRequest);
