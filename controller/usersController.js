@@ -75,11 +75,24 @@ async function getIndex(req, res) {
   }
 }
 
+function sortFiles(files) {
+  const target = "FOLDER";
+  files.sort((a, b) => {
+    if (a.type === target) return -1;
+    if (b.type === target) return 1;
+    return a.type.localeCompare(b.type);
+  });
+  return files;
+}
+
 async function getRootFolder(req, res) {
   if (req.isAuthenticated()) {
     const allFiles = await queries.getAllItemsByPath("/");
+    sortFiles(allFiles);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
+
+    console.log("HEREE", allFiles);
 
     res.render("index", {
       greeting: "hello world",
@@ -98,6 +111,7 @@ async function getFolders(req, res) {
   if (req.isAuthenticated()) {
     const id = Number(req.params.id);
     const allFiles = await queries.getAllItemsByParentId(id);
+    sortFiles(allFiles);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
@@ -190,6 +204,7 @@ async function postFolder(req, res) {
   let parentId = "";
   let currPath = "";
   console.log(path, currFolderId, "THISSSSSS");
+
   if (currFolderId.length === 0) {
     parentId = await queries.getItemIdByPath("/");
 
