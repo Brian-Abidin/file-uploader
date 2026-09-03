@@ -61,6 +61,31 @@ closeModalBtnFolder.addEventListener("click", () => {
 //   }
 // });
 
+document.addEventListener("click", (event) => {
+  const isToggle = event.target.matches(".dropdown-toggle-folder");
+  console.log(event.target, isToggle);
+  const currentDropdown = isToggle
+    ? event.target.closest(".dropdown-folder")
+    : null;
+  console.log(currentDropdown, "HELP");
+  if (isToggle) {
+    const secondChild = currentDropdown.children[1];
+    secondChild.classList.toggle("opacity-0");
+    secondChild.classList.toggle("scale-y-0");
+    secondChild.classList.toggle("pointer-events-none");
+
+    secondChild.classList.toggle("opacity-100");
+    secondChild.classList.toggle("scale-y-100");
+    secondChild.classList.toggle("pointer-events-auto");
+  }
+  // document.querySelectorAll(".dropdown-folder").forEach((dropdown) => {
+  //   if (dropdown !== currentDropdown) {
+  //     const secondChild = currentDropdown.children[1];
+  //     secondChild.classList.toggle("hidden");
+  //   }
+  // });
+});
+
 modalFolder.addEventListener("click", (e) => {
   const dialogDimensions = modalFolder.getBoundingClientRect();
   if (
