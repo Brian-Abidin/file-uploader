@@ -13,6 +13,10 @@ const closeModalBtnFolder = document.getElementById("close-modal-btn-folder");
 const pagePath = document.getElementById("page-path");
 const pagePathFolder = document.getElementById("page-path-folder");
 
+const dropdownFolder = document.getElementsByClassName(
+  ".dropdown-toggle-folder"
+);
+
 pagePath.value = window.location.pathname;
 pagePathFolder.value = window.location.pathname;
 
@@ -48,19 +52,6 @@ closeModalBtnFolder.addEventListener("click", () => {
   modalFolder.close();
 });
 
-// if user clicks on the backdrop area outside of modal the modal closes
-// modalFile.addEventListener("click", (e) => {
-//   const dialogDimensions = modalFile.getBoundingClientRect();
-//   if (
-//     e.clientX < dialogDimensions.left ||
-//     e.clientX > dialogDimensions.right ||
-//     e.clientY < dialogDimensions.top ||
-//     e.clientY > dialogDimensions.bottom
-//   ) {
-//     modalFile.close();
-//   }
-// });
-
 document.addEventListener("click", (event) => {
   const isToggle = event.target.matches(".dropdown-toggle-folder");
   console.log(event.target, isToggle);
@@ -68,24 +59,45 @@ document.addEventListener("click", (event) => {
     ? event.target.closest(".dropdown-folder")
     : null;
   console.log(currentDropdown, "HELP");
+  // const secondChild = currentDropdown.children[1];
   if (isToggle) {
-    const secondChild = currentDropdown.children[1];
-    secondChild.classList.toggle("opacity-0");
-    secondChild.classList.toggle("scale-y-0");
-    secondChild.classList.toggle("pointer-events-none");
+    currentDropdown.children[1].classList.toggle("opacity-0");
+    currentDropdown.children[1].classList.toggle("scale-y-0");
+    currentDropdown.children[1].classList.toggle("pointer-events-none");
 
-    secondChild.classList.toggle("opacity-100");
-    secondChild.classList.toggle("scale-y-100");
-    secondChild.classList.toggle("pointer-events-auto");
+    currentDropdown.children[1].classList.toggle("opacity-100");
+    currentDropdown.children[1].classList.toggle("scale-y-100");
+    currentDropdown.children[1].classList.toggle("pointer-events-auto");
   }
-  // document.querySelectorAll(".dropdown-folder").forEach((dropdown) => {
-  //   if (dropdown !== currentDropdown) {
-  //     const secondChild = currentDropdown.children[1];
-  //     secondChild.classList.toggle("hidden");
-  //   }
-  // });
+  // closes dropdown if outside of menu
+  document.querySelectorAll(".dropdown-folder").forEach((dropdown) => {
+    if (
+      currentDropdown !== dropdown &&
+      dropdown.children[1].classList.contains("opacity-100")
+    ) {
+      dropdown.children[1].classList.toggle("opacity-0");
+      dropdown.children[1].classList.toggle("scale-y-0");
+      dropdown.children[1].classList.toggle("pointer-events-none");
+
+      dropdown.children[1].classList.toggle("opacity-100");
+      dropdown.children[1].classList.toggle("scale-y-100");
+      dropdown.children[1].classList.toggle("pointer-events-auto");
+    }
+  });
 });
 
+// document.addEventListener("click", (e) => {
+//   const dropdowns = document.querySelectorAll(".dropdown-menu-folder").forEach((dropdown) => {
+//   if(!dropdowns.includes(e.target)){
+//     dropdowns.forEach((dropdown) => {
+//       if(dropdown.classList.contains("opacity-100"))
+//       dropdown.classList.remove("opacity-100")
+//       dropdown.classList.add("opacity-0")
+//     })
+//   }
+// })
+
+// closes modal if click is outside
 modalFolder.addEventListener("click", (e) => {
   const dialogDimensions = modalFolder.getBoundingClientRect();
   if (
