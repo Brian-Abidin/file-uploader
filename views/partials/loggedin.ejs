@@ -78,13 +78,13 @@
               <div  class="pl-2 w-full flex items-center justify-start "><%= sizes[i] %> MB</div>
               <% if(files[i].type === "FOLDER") { %>
                 <nav aria-label="Folder Options">
-                  <div class="dropdown-folder relative inline-block">
+                  <div class="w-full dropdown-folder relative inline-block">
                     <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class=" flex justify-center items-center">
                       <img src="/images/menu.png" class="dropdown-toggle-folder w-7 hover:bg-gray-50 rounded-lg" alt="vertical 3 dots menu icon">
                     </button>
-                    <ul class="dropdown-menu-folder absolute top-full w-30 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                      <li><a href="/">Edit Folder</a></li>
-                      <li><a href="/">Delete Folder</a></li>
+                    <ul class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                      <li class="w-full"><a class="w-full h-full hover:text-gray-950 hover:bg-gray-200" href="/">Edit Folder</a></li>
+                      <li class="w-full"><a class="w-full h-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</a></li>
                     </ul>
                   </div>
                 </nav>
