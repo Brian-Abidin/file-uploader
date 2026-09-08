@@ -13,6 +13,13 @@ const closeModalBtnFolder = document.getElementById("close-modal-btn-folder");
 const pagePath = document.getElementById("page-path");
 const pagePathFolder = document.getElementById("page-path-folder");
 
+const deleteFolderBtns = document.getElementsByClassName("delete-folder-btn");
+const deleteModal = document.getElementById("delete-modal");
+const deleteModals = document.getElementsByClassName("delete-modal");
+const closeDeleteModalBtns = document.getElementsByClassName(
+  "close-delete-modal-btn"
+);
+
 const dropdownFolder = document.getElementsByClassName(
   ".dropdown-toggle-folder"
 );
@@ -84,6 +91,15 @@ document.addEventListener("click", (event) => {
   });
 });
 
+for (let i = 0; i < deleteModals.length; i += 1) {
+  deleteFolderBtns[i].addEventListener("click", () => {
+    deleteModals[i].showModal();
+  });
+  closeDeleteModalBtns[i].addEventListener("click", () => {
+    deleteModals[i].close();
+  });
+}
+
 // document.addEventListener("click", (e) => {
 //   const dropdowns = document.querySelectorAll(".dropdown-menu-folder").forEach((dropdown) => {
 //   if(!dropdowns.includes(e.target)){
@@ -96,14 +112,14 @@ document.addEventListener("click", (event) => {
 // })
 
 // closes modal if click is outside
-modalFolder.addEventListener("click", (e) => {
-  const dialogDimensions = modalFolder.getBoundingClientRect();
-  if (
-    e.clientX < dialogDimensions.left ||
-    e.clientX > dialogDimensions.right ||
-    e.clientY < dialogDimensions.top ||
-    e.clientY > dialogDimensions.bottom
-  ) {
-    modalFolder.close();
-  }
-});
+// modalFolder.addEventListener("click", (e) => {
+//   const dialogDimensions = modalFolder.getBoundingClientRect();
+//   if (
+//     e.clientX < dialogDimensions.left ||
+//     e.clientX > dialogDimensions.right ||
+//     e.clientY < dialogDimensions.top ||
+//     e.clientY > dialogDimensions.bottom
+//   ) {
+//     modalFolder.close();
+//   }
+// });
