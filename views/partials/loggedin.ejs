@@ -79,23 +79,43 @@
               <% if(files[i].type === "FOLDER") { %>
                 <nav aria-label="Folder Options">
                   <div class="w-full dropdown-folder relative inline-block">
-                    <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class=" flex justify-center items-center hover:cursor-pointer">
+                    <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class="flex justify-center items-center hover:cursor-pointer">
                       <img src="/images/menu.png" class="dropdown-toggle-folder w-7 hover:bg-gray-50 rounded-lg" alt="vertical 3 dots menu icon">
                     </button>
-                    <ul class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                      <li class="w-full flex mb-1">
-                        <a class="w-full hover:text-gray-950 hover:bg-gray-200" href="/">Edit Folder</a>
-                      </li>
-                      <li class="w-full flex">
-                        <a class="w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</a>
-                      </li>
-                    </ul>
+                    <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                      <!-- Option to edit folder name-->
+                      <button class="mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
+                      <!-- Option to delete folder-->
+                      <button id="delete-folder-btn" class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
+                    </div>
                   </div>
                 </nav>
+                <!-- delete folder modal -->
+                <dialog id="delete-modal" class="delete-modal max-w-screen max-h-screen inset-0 p-2 m-auto rounded-md backdrop:bg-gray-950/50">
+                  <div class="w-full h-40 flex flex-col items-center">
+                    <!-- upper content -->
+                    <div class="w-full h-5 flex items-center justify-end">
+                      <button id="close-delete-modal" class="close-delete-modal-btn h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
+                    </div>
+                    <!-- middle content -->
+                    <div class="h-fit flex flex-col flex-1 justify-center items-center ">
+                        <div class="mb-2 text-2xl">Deleting the following folder:</div>
+                        <div class="text-lg">
+                          Name: <%= files[i].name %><br>
+                          Size: <%= files[i].size %> MB
+                        </div>
+                      </div>
+                    <!-- bottom content -->
+                    <div class="w-full h-fit flex justify-between items-center ">
+                      <button class="p-1 w-fit bg-gray-600 rounded-md text-gray-50">No</button>
+                      <button class="p-1 w-fit bg-gray-600 rounded-md text-gray-50">Yes</button>
+                    </div>
+                  </div>
+                </dialog>
                 <%} %>
-            </div>              
-          <%} %>              
+              </div>              
+              <%} %>              
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-</div>
