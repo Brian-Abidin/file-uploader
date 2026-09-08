@@ -54,11 +54,9 @@ closeModalBtnFolder.addEventListener("click", () => {
 
 document.addEventListener("click", (event) => {
   const isToggle = event.target.matches(".dropdown-toggle-folder");
-  console.log(event.target, isToggle);
   const currentDropdown = isToggle
     ? event.target.closest(".dropdown-folder")
     : null;
-  console.log(currentDropdown, "HELP");
   // const secondChild = currentDropdown.children[1];
   if (isToggle) {
     currentDropdown.children[1].classList.toggle("opacity-0");
