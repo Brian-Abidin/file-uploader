@@ -123,6 +123,14 @@ async function addChild() {
   // get current directory
 }
 
+async function deleteFileById(id) {
+  await prisma.Item.delete({
+    where: {
+      id
+    }
+  });
+}
+
 async function createNewFolder(
   name,
   type,
@@ -158,5 +166,6 @@ module.exports = {
   countUserItemsByUserId,
   getItemIdByPath,
   getAllItemsByPath,
-  getAllItemsByParentId
+  getAllItemsByParentId,
+  deleteFileById
 };
