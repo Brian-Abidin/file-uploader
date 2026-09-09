@@ -1,3 +1,5 @@
+const { deleteFileById } = require("../../services/userService");
+
 const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownMenu = document.getElementById("dropdownMenu");
 const dropdownIcon = document.getElementById("dropdownIcon");
@@ -19,6 +21,7 @@ const deleteModals = document.getElementsByClassName("delete-modal");
 const closeDeleteModalBtns = document.getElementsByClassName(
   "close-delete-modal-btn"
 );
+const declineBtns = document.getElementsByClassName("decline-delete-btn");
 
 const dropdownFolder = document.getElementsByClassName(
   ".dropdown-toggle-folder"
@@ -96,6 +99,9 @@ for (let i = 0; i < deleteModals.length; i += 1) {
     deleteModals[i].showModal();
   });
   closeDeleteModalBtns[i].addEventListener("click", () => {
+    deleteModals[i].close();
+  });
+  declineBtns[i].addEventListener("click", () => {
     deleteModals[i].close();
   });
 }
