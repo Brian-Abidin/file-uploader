@@ -318,8 +318,8 @@
   .h-15 {
     height: calc(var(--spacing) * 15);
   }
-  .h-40 {
-    height: calc(var(--spacing) * 40);
+  .h-50 {
+    height: calc(var(--spacing) * 50);
   }
   .h-fit {
     height: fit-content;
