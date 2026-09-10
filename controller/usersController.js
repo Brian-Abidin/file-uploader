@@ -236,6 +236,14 @@ async function postFolder(req, res) {
   res.redirect(`/folders/${currFolderId}`);
 }
 
+async function deleteFile(req, res) {
+  console.log("is this working? WAIT IT WAS WORKING");
+  console.log(req.body, "HEREEEERESFSFESF");
+  await queries.deleteFileById(Number(req.body.id));
+
+  res.redirect("/");
+}
+
 module.exports = {
   getIndex,
   getRootFolder,
@@ -244,5 +252,6 @@ module.exports = {
   getFailure,
   getForm,
   postUpload,
-  postFolder
+  postFolder,
+  deleteFile
 };
