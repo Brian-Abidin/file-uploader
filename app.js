@@ -49,6 +49,9 @@ passport.deserializeUser(passportController.deserializeUser);
 
 app.use(passportController.currentUser);
 
+// used to read JSON data when using fetch requests with JS
+app.use(express.json());
+
 // uses usersRouter to route all views and display them in app
 app.use("/", usersRouter);
 
