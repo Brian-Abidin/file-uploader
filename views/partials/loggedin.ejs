@@ -96,7 +96,7 @@
                 </nav>
                 <!-- delete folder modal -->
                 <dialog id="delete-modal" class="delete-modal max-w-screen max-h-screen inset-0 p-2 m-auto rounded-md backdrop:bg-gray-950/50">
-                  <div class="w-full h-40 flex flex-col items-center">
+                  <div class="w-full h-50 flex flex-col items-center">
                     <!-- upper content -->
                     <div class="w-full h-5 flex items-center justify-end">
                       <button id="close-delete-modal" class="close-delete-modal-btn h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
@@ -104,7 +104,8 @@
                     <!-- middle content -->
                     <div class="h-fit flex flex-col flex-1 justify-center items-center ">
                         <div class="mb-2 text-2xl">Deleting the following folder:</div>
-                        <div class="text-lg">
+                        <div id="data-container" class="text-lg">
+                          <div id="file-id" class="file-id"><%=files[i].id %></div>
                           Name: <%= files[i].name %><br>
                           Size: <%= files[i].size %> MB
                         </div>
