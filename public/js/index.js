@@ -1,5 +1,3 @@
-const { deleteFileById } = require("../../services/userService");
-
 const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownMenu = document.getElementById("dropdownMenu");
 const dropdownIcon = document.getElementById("dropdownIcon");
@@ -22,6 +20,7 @@ const closeDeleteModalBtns = document.getElementsByClassName(
   "close-delete-modal-btn"
 );
 const declineBtns = document.getElementsByClassName("decline-delete-btn");
+const confirmBtns = document.getElementsByClassName("confirm-delete-btn");
 
 const dropdownFolder = document.getElementsByClassName(
   ".dropdown-toggle-folder"
@@ -103,6 +102,32 @@ for (let i = 0; i < deleteModals.length; i += 1) {
   });
   declineBtns[i].addEventListener("click", () => {
     deleteModals[i].close();
+  });
+
+  // function that sends a
+  confirmBtns[i].addEventListener("click", async () => {
+    const fileId = document.getElementsByClassName("file-id")[i].textContent;
+    // data that is sent to req body
+    const payload = {
+      username: "test",
+      id: fileId
+    };
+
+    try {
+      // send a delete request directly to express endpoint
+      const response = await fetch("/folders/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json" // telling express JSON is being sent
+        },
+        body: JSON.stringify(payload) // convert obj to string
+      });
+      const data = await response.text();
+      window.location = "/";
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   });
 }
 
