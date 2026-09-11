@@ -153,6 +153,17 @@ async function createNewFolder(
   });
 }
 
+async function editFolderNameById(id, name) {
+  await prisma.Item.update({
+    where: {
+      id: Number(id)
+    },
+    data: {
+      name
+    }
+  });
+}
+
 // async function deleteFolder(folderId) {}
 
 module.exports = {
@@ -167,5 +178,6 @@ module.exports = {
   getItemIdByPath,
   getAllItemsByPath,
   getAllItemsByParentId,
-  deleteFileById
+  deleteFileById,
+  editFolderNameById
 };
