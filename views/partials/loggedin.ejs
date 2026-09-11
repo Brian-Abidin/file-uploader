@@ -88,12 +88,30 @@
                     </button>
                     <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
                       <!-- Option to edit folder name-->
-                      <button class="mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
+                      <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
                       <!-- Option to delete folder-->
-                      <button id="delete-folder-btn" class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
+                      <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
                     </div>
                   </div>
                 </nav>
+                <!-- edit folder modal -->
+                <dialog class="edit-modal m-auto p-2 max-w-screen max-h-screen inset-0 fixed bg-gray-800 text-gray-50 rounded-lg border-2 border-gray-400">
+                  <!-- inside modal -->
+                  <div class="w-full h-full flex flex-col justify-center items-center ">
+                    <!-- modal upper content -->
+                    <div class="w-full h-5 flex items-center justify-end">
+                      <button id="close-edit-folder-btn" class="close-edit-folder-btn h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
+                    </div>
+                    <!-- modal bottom content -->
+                    <div class="flex-1 flex w-full h-full justify-center items-center">
+                      <form class="flex flex-col gap-2" action="/edit" method="POST">
+                        <label class="text-xl" for="folder">Edit Folder:</label>
+                        <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text" placeholder="new folder" value=<%= files[i].name %>>
+                        <button class="mt-3 h-8 w-full bg-gray-500 rounded-sm hover:cursor-pointer hover:bg-gray-700">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </dialog>
                 <!-- delete folder modal -->
                 <dialog id="delete-modal" class="delete-modal max-w-screen max-h-screen inset-0 p-2 m-auto rounded-md backdrop:bg-gray-950/50">
                   <div class="w-full h-50 flex flex-col items-center">
