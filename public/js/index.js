@@ -22,6 +22,14 @@ const closeDeleteModalBtns = document.getElementsByClassName(
 const declineBtns = document.getElementsByClassName("decline-delete-btn");
 const confirmBtns = document.getElementsByClassName("confirm-delete-btn");
 
+const editModals = document.getElementsByClassName("edit-modal");
+const openEditFolderBtns = document.getElementsByClassName(
+  "open-edit-folder-btn"
+);
+const closeEditFolderBtns = document.getElementsByClassName(
+  "close-edit-folder-btn"
+);
+
 const dropdownFolder = document.getElementsByClassName(
   ".dropdown-toggle-folder"
 );
@@ -93,6 +101,19 @@ document.addEventListener("click", (event) => {
   });
 });
 
+// assign functions to buttons inside each edit modal
+for (let i = 0; i < editModals.length; i += 1) {
+  openEditFolderBtns[i].addEventListener("click", () => {
+    editModals[i].showModal();
+  });
+  closeEditFolderBtns[i].addEventListener("click", () => {
+    editModals[i].close();
+  });
+  // closeEditModalBtns
+  // confirmEditModalBtns
+}
+
+// assign functions to buttons inside each delete modal
 for (let i = 0; i < deleteModals.length; i += 1) {
   deleteFolderBtns[i].addEventListener("click", () => {
     deleteModals[i].showModal();
@@ -123,6 +144,7 @@ for (let i = 0; i < deleteModals.length; i += 1) {
         body: JSON.stringify(payload) // convert obj to string
       });
       const data = await response.text();
+      // sets the url to specific location
       window.location = "/";
       console.log("Success:", data);
     } catch (error) {
