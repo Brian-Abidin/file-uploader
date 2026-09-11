@@ -106,7 +106,8 @@
                     <div class="flex-1 flex w-full h-full justify-center items-center">
                       <form class="flex flex-col gap-2" action="/edit" method="POST">
                         <label class="text-xl" for="folder">Edit Folder:</label>
-                        <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text" placeholder="new folder" value=<%= files[i].name %>>
+                        <input class="hidden" name="id" type="text" value=<%=files[i].id %>>
+                        <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" name="name" type="text" placeholder="new folder" value=<%= files[i].name %>>
                         <button class="mt-3 h-8 w-full bg-gray-500 rounded-sm hover:cursor-pointer hover:bg-gray-700">Submit</button>
                       </form>
                     </div>
