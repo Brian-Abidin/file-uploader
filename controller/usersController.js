@@ -244,6 +244,12 @@ async function deleteFile(req, res) {
   res.redirect("/");
 }
 
+async function editFolder(req, res) {
+  console.log(req.body);
+  await queries.editFolderNameById(req.body.id, req.body.name);
+  res.redirect("/");
+}
+
 module.exports = {
   getIndex,
   getRootFolder,
@@ -253,5 +259,6 @@ module.exports = {
   getForm,
   postUpload,
   postFolder,
-  deleteFile
+  deleteFile,
+  editFolder
 };
