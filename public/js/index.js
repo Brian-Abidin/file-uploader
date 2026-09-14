@@ -12,6 +12,7 @@ const closeModalBtnFolder = document.getElementById("close-modal-btn-folder");
 
 const pagePath = document.getElementById("page-path");
 const pagePathFolder = document.getElementById("page-path-folder");
+const webPagePath = document.getElementsByClassName("web-page-path");
 
 const deleteFolderBtns = document.getElementsByClassName("delete-folder-btn");
 const deleteModal = document.getElementById("delete-modal");
@@ -36,6 +37,9 @@ const dropdownFolder = document.getElementsByClassName(
 
 pagePath.value = window.location.pathname;
 pagePathFolder.value = window.location.pathname;
+for (let i = 0; i < webPagePath.length; i += 1) {
+  webPagePath[i].value = window.location.pathname;
+}
 
 dropdownBtn.addEventListener("click", (e) => {
   e.stopPropagation();
