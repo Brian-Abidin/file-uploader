@@ -153,13 +153,14 @@ async function createNewFolder(
   });
 }
 
-async function editFolderNameById(id, name) {
+async function editFolderNameById(id, name, newPath) {
   await prisma.Item.update({
     where: {
       id: Number(id)
     },
     data: {
-      name
+      name,
+      path: newPath
     }
   });
 }
