@@ -3,6 +3,20 @@ const multer = require("multer");
 const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
 
+// finds the last occurrence of a string and replaces target with replacement
+function replaceLast(str, target, replacement) {
+  // Find the index of the last occurrence
+  const lastIndex = str.lastIndexOf(target);
+
+  // If the target isn't found, return the original string
+  if (lastIndex === -1) return str;
+
+  // Split and recombine the string
+  return (
+    str.slice(0, lastIndex) + replacement + str.slice(lastIndex + target.length)
+  );
+}
+
 function formatFileSizes(files) {
   const sizesArr = [];
   for (let i = 0; i < files.length; i += 1) {
@@ -246,8 +260,13 @@ async function deleteFile(req, res) {
 
 async function editFolder(req, res) {
   console.log(req.body);
-  await queries.editFolderNameById(req.body.id, req.body.name);
-  res.redirect("/");
+  const file = await queries.getFolderById(Number(req.body.id));
+  const fileName = file.name;
+  const filePath = file.path;
+  // replace old file path to new file path with new folder name
+  const newPath = replaceLast(filePath, fileName, req.body.name);
+  await queries.editFolderNameById(req.body.id, req.body.name, newPath);
+  res.redirect(`${req.body["web-page-path"]}`);
 }
 
 module.exports = {
