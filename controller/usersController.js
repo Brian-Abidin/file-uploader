@@ -74,7 +74,7 @@ async function setupInitialLogin(user) {
 async function getCurrPath(folderId) {
   // using pathId, get current directory
   const folder = await queries.getFolderById(Number(folderId));
-  console.log(folder);
+  // console.log(folder);
   const currPath = folder.path;
   return currPath;
 }
@@ -106,7 +106,10 @@ async function getRootFolder(req, res) {
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
 
-    console.log("HEREE", allFiles);
+    // console.log("HEREE", allFiles);
+    allFiles.forEach((file) => {
+      console.log("HERE", file);
+    });
 
     res.render("index", {
       greeting: "hello world",
@@ -260,13 +263,31 @@ async function deleteFile(req, res) {
 
 async function editFolder(req, res) {
   console.log(req.body);
-  const file = await queries.getFolderById(Number(req.body.id));
+  const file = await queries.getFolderById(1222);
   const fileName = file.name;
   const filePath = file.path;
   // replace old file path to new file path with new folder name
   const newPath = replaceLast(filePath, fileName, req.body.name);
   await queries.editFolderNameById(req.body.id, req.body.name, newPath);
   res.redirect(`${req.body["web-page-path"]}`);
+}
+
+async function getAllChildrenItems() {}
+
+// function that updates the path and the location of the file
+// and its children when a file name is changed
+async function updateFolderData(oldPath, newPath, idArr) {
+  if (idArr.length === 0) {
+    return;
+  }
+  const fileId = idArr.shift();
+  const childrenIdsArr = await queries.getAllItemsByParentId(fileId);
+  childrenIdsArr.forEach((file) => {
+    idArr.push(file.id);
+  });
+  // /test111/test12/test12, /test12, [42, ]
+  // function replaces last part of the old path with /test12 for id 42
+  // check slashes that current Path has and do n+1 slash for each child
 }
 
 module.exports = {
