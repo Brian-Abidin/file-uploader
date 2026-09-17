@@ -50,6 +50,9 @@ async function getFolderById(folderId) {
   const folder = await prisma.Item.findUnique({
     where: {
       id: folderId
+    },
+    include: {
+      children: true
     }
   });
   return folder;
@@ -114,6 +117,9 @@ async function getAllItemsByParentId(id) {
   const items = await prisma.Item.findMany({
     where: {
       parentId: id
+    },
+    include: {
+      children: true
     }
   });
   return items;
