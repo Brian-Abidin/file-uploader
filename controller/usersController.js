@@ -274,12 +274,35 @@ async function findFileDepthById(id) {
   return fileDepth;
 }
 
+function findNthInstance(str, char, n) {
+  //uses global flag to check all instance of char
+  const regex = new RegExp(char, "g");
+  const matches = [...str.matchAll(regex)]; // using spread operator to convert iterator (.matchAll) to array
+
+  console.log(matches.at(-1).index, "MATCHESSSS");
+  // returns index of last instance of the char
+  return matches.at(-1).index;
+}
+
+function updatePathString(oldStr, oldName, currName, index) {
+  const firstHalf = oldStr.slice(0, index);
+  const secondHalf = oldStr.slice(index);
+  const newString = firstHalf + secondHalf.replace(oldName, currName);
+  console.log(firstHalf, "first");
+  console.log(secondHalf, "second");
+  console.log(newString, "NEWWWW22");
+}
+
 async function editFolder(req, res) {
   console.log(req.body);
   const file = await queries.getFolderById(Number(req.body.id));
   const fileName = file.name;
   const filePath = file.path;
-  const depth = findFileDepthById(Number(44));
+  const depth = findFileDepthById(Number(req.body.id));
+  const indexPath = findNthInstance(file.path, "/", depth);
+  const indexLocation = findNthInstance(file.location, "/", depth);
+  console.log(file.name.length, "HELLOO");
+  updatePathString(file.path, file.name, req.body.name, indexPath);
   // replace old file path to new file path with new folder name
   // const newPath = replaceLast(filePath, fileName, req.body.name);
   // await queries.editFolderNameById(req.body.id, req.body.name, newPath);
