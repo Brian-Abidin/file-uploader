@@ -261,21 +261,52 @@ async function deleteFile(req, res) {
   res.redirect("/");
 }
 
-async function editFolder(req, res) {
-  console.log(req.body);
-  const file = await queries.getFolderById(1222);
-  const fileName = file.name;
-  const filePath = file.path;
-  // replace old file path to new file path with new folder name
-  const newPath = replaceLast(filePath, fileName, req.body.name);
-  await queries.editFolderNameById(req.body.id, req.body.name, newPath);
-  res.redirect(`${req.body["web-page-path"]}`);
+async function findFileDepthById(id) {
+  let fileDepth = -1;
+  const file = await queries.getFolderById(id);
+  let parentId = file.parentId;
+  while (parentId !== null) {
+    let parent = await queries.getFolderById(parentId);
+    parentId = parent.parentId;
+    fileDepth += 1;
+  }
+  console.log(fileDepth, parentId, "DEPTH HEREE");
+  return fileDepth;
 }
 
-async function getAllChildrenItems() {}
+async function editFolder(req, res) {
+  console.log(req.body);
+  const file = await queries.getFolderById(Number(req.body.id));
+  const fileName = file.name;
+  const filePath = file.path;
+  const depth = findFileDepthById(Number(44));
+  // replace old file path to new file path with new folder name
+  // const newPath = replaceLast(filePath, fileName, req.body.name);
+  // await queries.editFolderNameById(req.body.id, req.body.name, newPath);
+  // res.redirect(`${req.body["web-page-path"]}`);
+}
+
+// async function getAllChildrenIds(parentId) {
+//   const childrenIdsArr = [];
+//   const childFiles = await queries.getAllItemsByParentId(parentId);
+//   childFiles.forEach((file) => {
+//     file.id;
+//   });
+// }
 
 // function that updates the path and the location of the file
 // and its children when a file name is changed
+
+async function updateFolderData(id) {
+  let folderDepth = 0;
+  const file = await queries.getFilesByFileId(id);
+  while (parentId !== null) {}
+  // update path
+  // update location
+  // check the level of path 0 = root 1 = level 1, 2 = level 2
+  // to get level go up in parent Id then count n + 1 for each until parentId = null
+}
+
 async function updateFolderData(oldPath, newPath, idArr) {
   if (idArr.length === 0) {
     return;
@@ -288,6 +319,7 @@ async function updateFolderData(oldPath, newPath, idArr) {
   // /test111/test12/test12, /test12, [42, ]
   // function replaces last part of the old path with /test12 for id 42
   // check slashes that current Path has and do n+1 slash for each child
+  // using the child's path, use the new child path to swap the 2nd child's old path
 }
 
 module.exports = {
