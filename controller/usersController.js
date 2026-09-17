@@ -306,15 +306,32 @@ async function getAllDescendants(id) {
   let descendants = [];
   const item = await queries.getFolderById(id);
 
-  if (item.children.length > 0) {
-    item.children.forEach(async (child) => {
-      descendants.push(child.id);
-      console.log(child.id, "CHILD ID");
-      descendants = await descendants.concat(getAllDescendants(child.id));
-    });
+  if (item.children.length < 1) {
+    return descendants;
   }
-  console.log(descendants, "DES");
+
+  for await (const child of item.children) {
+    descendants.push(child.id);
+    console.log(descendants, "DES");
+    descendants = descendants.concat(await getAllDescendants(child.id));
+  }
+
   return descendants;
+
+  // console.log(item.children.length, item.id);
+  // if (item.children.length > 0) {
+  //   item.children.forEach(async (child) => {
+  //     descendants.push(child.id);
+  //     console.log(descendants, "DES");
+  //     descendants = descendants.concat(
+  //       await getAllDescendants(child.id),
+  //       descendants
+  //     );
+  //   });
+  // }
+  // descendants.push(item.id);
+  // console.log(descendants, "IMMM");
+  // return descendants;
 }
 
 async function editFolder(req, res) {
