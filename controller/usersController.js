@@ -293,6 +293,15 @@ function updatePathString(oldStr, oldName, currName, index) {
   console.log(newString, "NEWWWW22");
 }
 
+function updateLocationString(oldStr, oldName, currName, index) {
+  const firstHalf = oldStr.slice(0, index);
+  const secondHalf = oldStr.slice(index);
+  const newString = firstHalf.replace(oldName, currName) + secondHalf;
+  console.log(firstHalf, "first");
+  console.log(secondHalf, "second");
+  console.log(newString, "NEWWWW22");
+}
+
 async function editFolder(req, res) {
   console.log(req.body);
   const file = await queries.getFolderById(Number(req.body.id));
@@ -302,7 +311,13 @@ async function editFolder(req, res) {
   const indexPath = findNthInstance(file.path, "/", depth);
   const indexLocation = findNthInstance(file.location, "/", depth);
   console.log(file.name.length, "HELLOO");
-  updatePathString(file.path, file.name, req.body.name, indexPath);
+  // updatePathString(file.path, file.name, req.body.name, indexPath);
+  updateLocationString(
+    "/test781/test22/test788",
+    file.name,
+    req.body.name,
+    file.name.length + 1
+  );
   // replace old file path to new file path with new folder name
   // const newPath = replaceLast(filePath, fileName, req.body.name);
   // await queries.editFolderNameById(req.body.id, req.body.name, newPath);
