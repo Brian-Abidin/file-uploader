@@ -302,6 +302,21 @@ function updateLocationString(oldStr, oldName, currName, index) {
   console.log(newString, "NEWWWW22");
 }
 
+async function getAllDescendants(id) {
+  let descendants = [];
+  const item = await queries.getFolderById(id);
+
+  if (item.children.length > 0) {
+    item.children.forEach(async (child) => {
+      descendants.push(child.id);
+      console.log(child.id, "CHILD ID");
+      descendants = await descendants.concat(getAllDescendants(child.id));
+    });
+  }
+  console.log(descendants, "DES");
+  return descendants;
+}
+
 async function editFolder(req, res) {
   console.log(req.body);
   const file = await queries.getFolderById(Number(req.body.id));
@@ -318,6 +333,7 @@ async function editFolder(req, res) {
     req.body.name,
     file.name.length + 1
   );
+  console.log(await getAllDescendants(Number(req.body.id)), "DESCENDANTS");
   // replace old file path to new file path with new folder name
   // const newPath = replaceLast(filePath, fileName, req.body.name);
   // await queries.editFolderNameById(req.body.id, req.body.name, newPath);
