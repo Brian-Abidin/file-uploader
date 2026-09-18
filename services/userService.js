@@ -46,16 +46,16 @@ async function getFilesByFileId(fileId) {
   return items;
 }
 
-async function getFolderById(folderId) {
-  const folder = await prisma.Item.findUnique({
+async function getFileById(id) {
+  const file = await prisma.Item.findUnique({
     where: {
-      id: folderId
+      id
     },
     include: {
       children: true
     }
   });
-  return folder;
+  return file;
 }
 
 async function getParentPathByParentId(parentId) {
@@ -159,13 +159,12 @@ async function createNewFolder(
   });
 }
 
-async function editFolderNameById(id, name, newPath) {
+async function editFilePathById(id, newPath) {
   await prisma.Item.update({
     where: {
       id: Number(id)
     },
     data: {
-      name,
       path: newPath
     }
   });
@@ -178,7 +177,7 @@ module.exports = {
   getFilesByUserId,
   getFilesByFileId,
   createNewFolder,
-  getFolderById,
+  getFileById,
   getParentPathByParentId,
   getUserByUsername,
   countUserItemsByUserId,
@@ -186,5 +185,5 @@ module.exports = {
   getAllItemsByPath,
   getAllItemsByParentId,
   deleteFileById,
-  editFolderNameById
+  editFilePathById
 };
