@@ -317,21 +317,6 @@ async function getAllDescendants(id) {
   }
 
   return descendants;
-
-  // console.log(item.children.length, item.id);
-  // if (item.children.length > 0) {
-  //   item.children.forEach(async (child) => {
-  //     descendants.push(child.id);
-  //     console.log(descendants, "DES");
-  //     descendants = descendants.concat(
-  //       await getAllDescendants(child.id),
-  //       descendants
-  //     );
-  //   });
-  // }
-  // descendants.push(item.id);
-  // console.log(descendants, "IMMM");
-  // return descendants;
 }
 
 async function editFolder(req, res) {
@@ -357,17 +342,6 @@ async function editFolder(req, res) {
   // res.redirect(`${req.body["web-page-path"]}`);
 }
 
-// async function getAllChildrenIds(parentId) {
-//   const childrenIdsArr = [];
-//   const childFiles = await queries.getAllItemsByParentId(parentId);
-//   childFiles.forEach((file) => {
-//     file.id;
-//   });
-// }
-
-// function that updates the path and the location of the file
-// and its children when a file name is changed
-
 async function updateFolderData(id) {
   let folderDepth = 0;
   const file = await queries.getFilesByFileId(id);
@@ -387,10 +361,6 @@ async function updateFolderData(oldPath, newPath, idArr) {
   childrenIdsArr.forEach((file) => {
     idArr.push(file.id);
   });
-  // /test111/test12/test12, /test12, [42, ]
-  // function replaces last part of the old path with /test12 for id 42
-  // check slashes that current Path has and do n+1 slash for each child
-  // using the child's path, use the new child path to swap the 2nd child's old path
 }
 
 module.exports = {
