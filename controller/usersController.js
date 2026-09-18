@@ -73,7 +73,7 @@ async function setupInitialLogin(user) {
 
 async function getCurrPath(folderId) {
   // using pathId, get current directory
-  const folder = await queries.getFolderById(Number(folderId));
+  const folder = await queries.getFileById(Number(folderId));
   // console.log(folder);
   const currPath = folder.path;
   return currPath;
@@ -263,10 +263,10 @@ async function deleteFile(req, res) {
 
 async function findFileDepthById(id) {
   let fileDepth = -1;
-  const file = await queries.getFolderById(id);
+  const file = await queries.getFileById(id);
   let parentId = file.parentId;
   while (parentId !== null) {
-    let parent = await queries.getFolderById(parentId);
+    let parent = await queries.getFileById(parentId);
     parentId = parent.parentId;
     fileDepth += 1;
   }
@@ -291,20 +291,22 @@ function updatePathString(oldStr, oldName, currName, index) {
   console.log(firstHalf, "first");
   console.log(secondHalf, "second");
   console.log(newString, "NEWWWW22");
+  return newString;
 }
 
 function updateLocationString(oldStr, oldName, currName, index) {
   const firstHalf = oldStr.slice(0, index);
   const secondHalf = oldStr.slice(index);
-  const newString = firstHalf.replace(oldName, currName) + secondHalf;
+  const newString = firstHalf + secondHalf.replace(oldName, currName);
   console.log(firstHalf, "first");
   console.log(secondHalf, "second");
   console.log(newString, "NEWWWW22");
+  return newString;
 }
 
 async function getAllDescendants(id) {
   let descendants = [];
-  const item = await queries.getFolderById(id);
+  const item = await queries.getFileById(id);
 
   if (item.children.length < 1) {
     return descendants;
@@ -319,22 +321,73 @@ async function getAllDescendants(id) {
   return descendants;
 }
 
+// using an array of ids, update the items' path string
+async function updateDescendantsPathById(idArr, oldName, newName, indexPath) {
+  idArr.forEach(async (id) => {
+    const item = await queries.getFileById(Number(id));
+    const newPath = updatePathString(item.path, oldName, newName, indexPath);
+    console.log(item.path, newPath, "COMPARISON FOR", item.id);
+    // await queries.editFilePathById(id, newPath);
+  });
+}
+
+// using an array of ids, update the items' location string
+async function updateDescendantsLocationById(
+  idArr,
+  oldName,
+  newName,
+  indexPath
+) {
+  idArr.forEach(async (id) => {
+    const item = await queries.getFileById(Number(id));
+    const newLocation = updatePathString(
+      item.location,
+      oldName,
+      newName,
+      indexPath
+    );
+    console.log(item.location, newLocation, "COMPARISON FOR LOCATION", item.id);
+    // await queries.editFilePathById(id, newPath);
+  });
+}
+
+// updates item's own path string
+async function updateSelfPathById(id, oldName, newName, indexPath) {
+  const item = await queries.getFileById(Number(id));
+  const newPath = updatePathString(item.path, oldName, newName, indexPath);
+  console.log(newPath, "ORIGINAL");
+  // await queries.editFilePathById(id, newPath);
+}
+
 async function editFolder(req, res) {
   console.log(req.body);
-  const file = await queries.getFolderById(Number(req.body.id));
-  const fileName = file.name;
-  const filePath = file.path;
+  const file = await queries.getFileById(Number(req.body.id));
+
+  // returns array of ids from the descendants of the item with id = req.body.id
+  const descendants = await getAllDescendants(Number(req.body.id));
+
+  // finds how nested in the directory the file (num of times "/" appears)
   const depth = findFileDepthById(Number(req.body.id));
-  const indexPath = findNthInstance(file.path, "/", depth);
-  const indexLocation = findNthInstance(file.location, "/", depth);
-  console.log(file.name.length, "HELLOO");
-  // updatePathString(file.path, file.name, req.body.name, indexPath);
-  updateLocationString(
-    "/test781/test22/test788",
-    file.name,
-    req.body.name,
-    file.name.length + 1
-  );
+
+  // find at what index does the file exists in the path string based on num of times
+  const index = findNthInstance(file.path, "/", depth);
+  // console.log(index, "PATH INDEx");
+
+  //update the path string for the file
+  updateSelfPathById(req.body.id, file.name, req.body.name, index);
+
+  // updates the path string for all descendants of the file
+  updateDescendantsPathById(descendants, file.name, req.body.name, index);
+  updateDescendantsLocationById(descendants, file.name, req.body.name, index);
+
+  // updates the location string for all descendants of the file
+
+  // updateLocationString(
+  //   "/test781/test22/test788",
+  //   file.name,
+  //   req.body.name,
+  //   file.name.length + 1
+  // );
   console.log(await getAllDescendants(Number(req.body.id)), "DESCENDANTS");
   // replace old file path to new file path with new folder name
   // const newPath = replaceLast(filePath, fileName, req.body.name);
