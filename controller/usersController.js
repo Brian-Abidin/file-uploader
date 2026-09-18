@@ -261,18 +261,18 @@ async function deleteFile(req, res) {
   res.redirect("/");
 }
 
-async function findFileDepthById(id) {
-  let fileDepth = -1;
-  const file = await queries.getFileById(id);
-  let parentId = file.parentId;
-  while (parentId !== null) {
-    let parent = await queries.getFileById(parentId);
-    parentId = parent.parentId;
-    fileDepth += 1;
-  }
-  console.log(fileDepth, parentId, "DEPTH HEREE");
-  return fileDepth;
-}
+// async function findFileDepthById(id) {
+//   let fileDepth = -1;
+//   const file = await queries.getFileById(id);
+//   let parentId = file.parentId;
+//   while (parentId !== null) {
+//     let parent = await queries.getFileById(parentId);
+//     parentId = parent.parentId;
+//     fileDepth += 1;
+//   }
+//   console.log(fileDepth, parentId, "DEPTH HEREE");
+//   return fileDepth;
+// }
 
 function findNthInstance(str, char, n) {
   //uses global flag to check all instance of char
@@ -294,15 +294,15 @@ function updatePathString(oldStr, oldName, currName, index) {
   return newString;
 }
 
-function updateLocationString(oldStr, oldName, currName, index) {
-  const firstHalf = oldStr.slice(0, index);
-  const secondHalf = oldStr.slice(index);
-  const newString = firstHalf + secondHalf.replace(oldName, currName);
-  console.log(firstHalf, "first");
-  console.log(secondHalf, "second");
-  console.log(newString, "NEWWWW22");
-  return newString;
-}
+// function updateLocationString(oldStr, oldName, currName, index) {
+//   const firstHalf = oldStr.slice(0, index);
+//   const secondHalf = oldStr.slice(index);
+//   const newString = firstHalf + secondHalf.replace(oldName, currName);
+//   console.log(firstHalf, "first");
+//   console.log(secondHalf, "second");
+//   console.log(newString, "NEWWWW22");
+//   return newString;
+// }
 
 async function getAllDescendants(id) {
   let descendants = [];
@@ -327,7 +327,7 @@ async function updateDescendantsPathById(idArr, oldName, newName, indexPath) {
     const item = await queries.getFileById(Number(id));
     const newPath = updatePathString(item.path, oldName, newName, indexPath);
     console.log(item.path, newPath, "COMPARISON FOR", item.id);
-    // await queries.editFilePathById(id, newPath);
+    await queries.editFilePathById(id, newPath);
   });
 }
 
@@ -347,7 +347,7 @@ async function updateDescendantsLocationById(
       indexPath
     );
     console.log(item.location, newLocation, "COMPARISON FOR LOCATION", item.id);
-    // await queries.editFilePathById(id, newPath);
+    await queries.editFileLocationById(id, newLocation);
   });
 }
 
@@ -356,43 +356,23 @@ async function updateSelfPathById(id, oldName, newName, indexPath) {
   const item = await queries.getFileById(Number(id));
   const newPath = updatePathString(item.path, oldName, newName, indexPath);
   console.log(newPath, "ORIGINAL");
-  // await queries.editFilePathById(id, newPath);
+  await queries.editFilePathById(id, newPath);
 }
 
 async function editFolder(req, res) {
   console.log(req.body);
   const file = await queries.getFileById(Number(req.body.id));
-
   // returns array of ids from the descendants of the item with id = req.body.id
   const descendants = await getAllDescendants(Number(req.body.id));
-
-  // finds how nested in the directory the file (num of times "/" appears)
-  const depth = findFileDepthById(Number(req.body.id));
-
   // find at what index does the file exists in the path string based on num of times
-  const index = findNthInstance(file.path, "/", depth);
-  // console.log(index, "PATH INDEx");
-
+  const index = findNthInstance(file.path, "/");
   //update the path string for the file
   updateSelfPathById(req.body.id, file.name, req.body.name, index);
-
   // updates the path string for all descendants of the file
   updateDescendantsPathById(descendants, file.name, req.body.name, index);
-  updateDescendantsLocationById(descendants, file.name, req.body.name, index);
-
   // updates the location string for all descendants of the file
-
-  // updateLocationString(
-  //   "/test781/test22/test788",
-  //   file.name,
-  //   req.body.name,
-  //   file.name.length + 1
-  // );
-  console.log(await getAllDescendants(Number(req.body.id)), "DESCENDANTS");
-  // replace old file path to new file path with new folder name
-  // const newPath = replaceLast(filePath, fileName, req.body.name);
-  // await queries.editFolderNameById(req.body.id, req.body.name, newPath);
-  // res.redirect(`${req.body["web-page-path"]}`);
+  updateDescendantsLocationById(descendants, file.name, req.body.name, index);
+  res.redirect(`${req.body["web-page-path"]}`);
 }
 
 async function updateFolderData(id) {
