@@ -171,6 +171,20 @@ async function getFailure(req, res) {
   res.render("failure", { errors });
 }
 
+// using id, update folder size based on the children inside
+async function updateFolderSizeById(id) {
+  const children = await queries.getAllItemsByParentId(id);
+  let bytes = 0;
+  children.forEach((child) => {
+    bytes += child.size;
+  });
+  // while parent id !== 7 (root), then climb up and update that folder size too
+  while (file.parentId !== null) {
+    const file = await queries.getFileById(id);
+  }
+  await queries.updateFileSizeById(id, bytes);
+}
+
 async function postUpload(req, res) {
   const path = req.body["page-path"];
   const currFolderId = path.replace(/\D/g, "");
@@ -210,6 +224,8 @@ async function postUpload(req, res) {
       req.user.id,
       parentId
     );
+    // after file is created update the folder size
+    updateFolderSizeById(parentId);
   }
   res.redirect(`/folders/${currFolderId}`);
 }
@@ -351,6 +367,7 @@ async function editFolder(req, res) {
   updateDescendantsLocationById(descendants, file.name, req.body.name, index);
   // updates the name of the file to the new name
   await queries.editFileNameById(Number(req.body.id), req.body.name);
+  updateFolderSizeById(Number(req.body.id));
   res.redirect(`${req.body["web-page-path"]}`);
 }
 
