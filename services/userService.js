@@ -181,6 +181,17 @@ async function editFileLocationById(id, newLocation) {
   });
 }
 
+async function editFileNameById(id, name) {
+  await prisma.Item.update({
+    where: {
+      id: Number(id)
+    },
+    data: {
+      name
+    }
+  });
+}
+
 // async function deleteFolder(folderId) {}
 
 module.exports = {
@@ -197,5 +208,6 @@ module.exports = {
   getAllItemsByParentId,
   deleteFileById,
   editFilePathById,
-  editFileLocationById
+  editFileLocationById,
+  editFileNameById
 };
