@@ -171,6 +171,20 @@ async function getFailure(req, res) {
   res.render("failure", { errors });
 }
 
+// returns an array of ids of all the folder ancestors of the current file
+async function getAllAncestorsById(id) {
+  let ancestors = [];
+  const file = await queries.getFileById(Number(id));
+  // 7 is the id for the root folder
+  if (file.parentId === null || file.parentId === 7) {
+    return ancestors;
+  }
+  ancestors.push(file.parentId);
+  ancestors = ancestors.concat(await getAllAncestorsById(file.parentId));
+
+  return ancestors;
+}
+
 // using id, update folder size based on the children inside
 async function updateFolderSizeById(id) {
   const children = await queries.getAllItemsByParentId(id);
@@ -179,10 +193,13 @@ async function updateFolderSizeById(id) {
     bytes += child.size;
   });
   // while parent id !== 7 (root), then climb up and update that folder size too
-  while (file.parentId !== null) {
-    const file = await queries.getFileById(id);
-  }
   await queries.updateFileSizeById(id, bytes);
+}
+
+async function updateMultipleFolderSizes(idsArr) {
+  idsArr.forEach((id) => {
+    updateFolderSizeById(id);
+  });
 }
 
 async function postUpload(req, res) {
@@ -224,8 +241,9 @@ async function postUpload(req, res) {
       req.user.id,
       parentId
     );
-    // after file is created update the folder size
-    updateFolderSizeById(parentId);
+    // after file is created get an array of file's
+    // ancestor's ids. Then updating the ancestors and the
+    // file's sizes
   }
   res.redirect(`/folders/${currFolderId}`);
 }
@@ -368,6 +386,9 @@ async function editFolder(req, res) {
   // updates the name of the file to the new name
   await queries.editFileNameById(Number(req.body.id), req.body.name);
   updateFolderSizeById(Number(req.body.id));
+  const ancestors = await getAllAncestorsById(Number(req.body.id));
+  console.log(ancestors, "ANCESTORS");
+  updateMultipleFolderSizes(ancestors);
   res.redirect(`${req.body["web-page-path"]}`);
 }
 
