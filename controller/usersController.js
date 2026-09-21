@@ -349,6 +349,8 @@ async function editFolder(req, res) {
   updateDescendantsPathById(descendants, file.name, req.body.name, index);
   // updates the location string for all descendants of the file
   updateDescendantsLocationById(descendants, file.name, req.body.name, index);
+  // updates the name of the file to the new name
+  await queries.editFileNameById(Number(req.body.id), req.body.name);
   res.redirect(`${req.body["web-page-path"]}`);
 }
 
