@@ -261,21 +261,8 @@ async function deleteFile(req, res) {
   res.redirect("/");
 }
 
-// async function findFileDepthById(id) {
-//   let fileDepth = -1;
-//   const file = await queries.getFileById(id);
-//   let parentId = file.parentId;
-//   while (parentId !== null) {
-//     let parent = await queries.getFileById(parentId);
-//     parentId = parent.parentId;
-//     fileDepth += 1;
-//   }
-//   console.log(fileDepth, parentId, "DEPTH HEREE");
-//   return fileDepth;
-// }
-
 function findNthInstance(str, char, n) {
-  //uses global flag to check all instance of char
+  // uses global flag to check all instance of char
   const regex = new RegExp(char, "g");
   const matches = [...str.matchAll(regex)]; // using spread operator to convert iterator (.matchAll) to array
 
@@ -293,16 +280,6 @@ function updatePathString(oldStr, oldName, currName, index) {
   console.log(newString, "NEWWWW22");
   return newString;
 }
-
-// function updateLocationString(oldStr, oldName, currName, index) {
-//   const firstHalf = oldStr.slice(0, index);
-//   const secondHalf = oldStr.slice(index);
-//   const newString = firstHalf + secondHalf.replace(oldName, currName);
-//   console.log(firstHalf, "first");
-//   console.log(secondHalf, "second");
-//   console.log(newString, "NEWWWW22");
-//   return newString;
-// }
 
 async function getAllDescendants(id) {
   let descendants = [];
@@ -366,34 +343,13 @@ async function editFolder(req, res) {
   const descendants = await getAllDescendants(Number(req.body.id));
   // find at what index does the file exists in the path string based on num of times
   const index = findNthInstance(file.path, "/");
-  //update the path string for the file
+  // update the path string for the file
   updateSelfPathById(req.body.id, file.name, req.body.name, index);
   // updates the path string for all descendants of the file
   updateDescendantsPathById(descendants, file.name, req.body.name, index);
   // updates the location string for all descendants of the file
   updateDescendantsLocationById(descendants, file.name, req.body.name, index);
   res.redirect(`${req.body["web-page-path"]}`);
-}
-
-async function updateFolderData(id) {
-  let folderDepth = 0;
-  const file = await queries.getFilesByFileId(id);
-  while (parentId !== null) {}
-  // update path
-  // update location
-  // check the level of path 0 = root 1 = level 1, 2 = level 2
-  // to get level go up in parent Id then count n + 1 for each until parentId = null
-}
-
-async function updateFolderData(oldPath, newPath, idArr) {
-  if (idArr.length === 0) {
-    return;
-  }
-  const fileId = idArr.shift();
-  const childrenIdsArr = await queries.getAllItemsByParentId(fileId);
-  childrenIdsArr.forEach((file) => {
-    idArr.push(file.id);
-  });
 }
 
 module.exports = {
