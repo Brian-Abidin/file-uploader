@@ -292,6 +292,11 @@ async function deleteFile(req, res) {
   console.log(req.body, "HEREEEERESFSFESF");
   await queries.deleteFileById(Number(req.body.id));
 
+  // after deletion query, update folder sizes
+  updateFolderSizeById(Number(req.body.id));
+  const ancestors = await getAllAncestorsById(Number(req.body.id));
+  updateMultipleFolderSizes(ancestors);
+
   res.redirect("/");
 }
 
