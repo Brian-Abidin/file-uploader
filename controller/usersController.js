@@ -55,11 +55,12 @@ async function checkUserItems(username) {
 
 async function setupInitialLogin(user) {
   const count = await checkUserItems(user.username);
+  let message = "User is already setup.";
   if (count === 0) {
     await createRootFolder(user.id);
-    return "Initial user setup complete. Welcome!";
+    message = "Initial user setup complete. Welcome!";
   }
-  return "User is already setup.";
+  return message;
 }
 
 // function findFullPath(startPath, root) {
