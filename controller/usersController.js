@@ -244,6 +244,10 @@ async function postUpload(req, res) {
     // after file is created get an array of file's
     // ancestor's ids. Then updating the ancestors and the
     // file's sizes
+    updateFolderSizeById(parentId);
+    const ancestors = await getAllAncestorsById(parentId);
+    console.log(ancestors, "ANCESTORS");
+    updateMultipleFolderSizes(ancestors);
   }
   res.redirect(`/folders/${currFolderId}`);
 }
