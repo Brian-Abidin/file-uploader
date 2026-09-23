@@ -261,8 +261,14 @@ async function postFolder(req, res) {
   let currPath = "";
   console.log(path, currFolderId, "THISSSSSS");
 
+  // current directory is the root folder
   if (currFolderId.length === 0) {
     parentId = await queries.getItemIdByPath("/");
+    const exists = await queries.getFileByNameAndParentId(folderName, parentId);
+    if (exists) {
+      const errors = `Folder with the name ${folderName} already exists in this directory`;
+      return res.status(500).render("failure", { errors });
+    }
 
     await queries.createNewFolder(
       folderName,
@@ -278,6 +284,12 @@ async function postFolder(req, res) {
     currPath = await getCurrPath(currFolderId);
     console.log(currPath, "UMMMMMMMMMMMM");
 
+    const exists = await queries.getFileByNameAndParentId(folderName, parentId);
+    if (exists) {
+      const errors = `Folder with the name ${folderName} already exists in this directory`;
+      return res.status(500).render("failure", { errors });
+    }
+
     await queries.createNewFolder(
       folderName,
       "FOLDER",
@@ -289,7 +301,7 @@ async function postFolder(req, res) {
     );
   }
 
-  res.redirect(`/folders/${currFolderId}`);
+  return res.redirect(`/folders/${currFolderId}`);
 }
 
 async function deleteFile(req, res) {
