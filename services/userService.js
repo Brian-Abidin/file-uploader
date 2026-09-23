@@ -24,6 +24,16 @@ async function createNewFile(
   });
 }
 
+async function getFileByNameAndParentId(name, parentId) {
+  const item = await prisma.Item.findFirst({
+    where: {
+      name,
+      parentId
+    }
+  });
+  return item;
+}
+
 async function getFilesByUserId(userId) {
   console.log("working?");
   const items = await prisma.Item.findMany({
@@ -213,6 +223,7 @@ module.exports = {
   getFileById,
   getParentPathByParentId,
   getUserByUsername,
+  getFileByNameAndParentId,
   countUserItemsByUserId,
   getItemIdByPath,
   getAllItemsByPath,
