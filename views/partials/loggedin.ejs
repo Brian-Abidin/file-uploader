@@ -81,19 +81,27 @@
               <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= files[i].name %></div>
               <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= dates[i] %></div>
               <div  class="pl-2 w-full flex items-center justify-start "><%= sizes[i] %> MB</div>
-              <!-- files that are folder type have folder options-->
-              <% if(files[i].type === "FOLDER") { %>
+              <!-- file options -->
                 <nav class="w-fit flex items-center justify-start" aria-label="Folder Options">
                   <div class="w-full dropdown-folder relative inline-block">
                     <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class="flex justify-center items-center hover:cursor-pointer">
                       <img src="/images/menu.png" class="dropdown-toggle-folder w-7 hover:bg-gray-50 rounded-lg" alt="vertical 3 dots menu icon">
                     </button>
-                    <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                      <!-- Option to edit folder name-->
-                      <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
-                      <!-- Option to delete folder-->
-                      <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
-                    </div>
+                    <% if(files[i].type === "FOLDER") { %>
+                      <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                        <!-- Option to edit folder name-->
+                        <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
+                        <!-- Option to delete folder-->
+                        <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
+                      </div>
+                      <% } else { %>
+                        <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                          <!-- Option to edit folder name-->
+                          <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Download File</button>
+                          <!-- Option to delete folder-->
+                          <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete File</button>
+                        </div>
+                      <% } %>
                   </div>
                 </nav>
                 <!-- edit folder modal -->
@@ -139,7 +147,6 @@
                     </div>
                   </div>
                 </dialog>
-                <%} %>
               </div>              
               <%} %>              
             </div>
