@@ -414,6 +414,14 @@ async function editFolder(req, res) {
   res.redirect(`${req.body["web-page-path"]}`);
 }
 
+async function downloadFile(req, res) {
+  // const filePath = get physical file directory path
+  // use __dirname to get the current path then find the path to uploads
+  // const filePath = 'uploads/' + filename
+  // for filename use query in prisma to get the filename from the id passed through the form
+  // res.download(filePath, (err) => { if (err) console.error (download failed) ) )})
+}
+
 module.exports = {
   getIndex,
   getRootFolder,
