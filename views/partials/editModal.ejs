@@ -1,0 +1,20 @@
+<!-- edit folder modal -->
+<dialog class="edit-modal m-auto p-2 max-w-screen max-h-screen inset-0 fixed bg-gray-800 text-gray-50 rounded-lg border-2 border-gray-400">
+  <!-- inside modal -->
+  <div class="w-full h-full flex flex-col justify-center items-center ">
+    <!-- modal upper content -->
+    <div class="w-full h-5 flex items-center justify-end">
+      <button id="close-edit-folder-btn" class="close-edit-folder-btn h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
+    </div>
+    <!-- modal bottom content -->
+    <div class="flex-1 flex w-full h-full justify-center items-center">
+      <form class="flex flex-col gap-2" action="/edit" method="POST">
+        <label class="text-xl" for="folder">Edit Folder:</label>
+        <input class="hidden web-page-path" name="web-page-path" type="text">
+        <input class="hidden" name="id" type="text" value=<%=files[i].id %>>
+        <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" name="name" type="text" placeholder="new folder" value=<%= files[i].name %>>
+        <button class="mt-3 h-8 w-full bg-gray-500 rounded-sm hover:cursor-pointer hover:bg-gray-700">Submit</button>
+      </form>
+    </div>
+  </div>
+</dialog>
