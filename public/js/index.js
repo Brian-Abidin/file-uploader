@@ -107,27 +107,31 @@ document.addEventListener("click", (event) => {
 
 // assign functions to buttons inside each edit modal
 for (let i = 0; i < editModals.length; i += 1) {
-  openEditFolderBtns[i].addEventListener("click", () => {
-    editModals[i].showModal();
-  });
-  closeEditFolderBtns[i].addEventListener("click", () => {
-    editModals[i].close();
-  });
+  if (openEditFolderBtns[i]) {
+    openEditFolderBtns[i].addEventListener("click", () => {
+      editModals[i].showModal();
+    });
+    closeEditFolderBtns[i].addEventListener("click", () => {
+      editModals[i].close();
+    });
+  }
   // closeEditModalBtns
   // confirmEditModalBtns
 }
 
 // assign functions to buttons inside each delete modal
 for (let i = 0; i < deleteModals.length; i += 1) {
-  deleteFolderBtns[i].addEventListener("click", () => {
-    deleteModals[i].showModal();
-  });
-  closeDeleteModalBtns[i].addEventListener("click", () => {
-    deleteModals[i].close();
-  });
-  declineBtns[i].addEventListener("click", () => {
-    deleteModals[i].close();
-  });
+  if (deleteFolderBtns[i]) {
+    deleteFolderBtns[i].addEventListener("click", () => {
+      deleteModals[i].showModal();
+    });
+    closeDeleteModalBtns[i].addEventListener("click", () => {
+      deleteModals[i].close();
+    });
+    declineBtns[i].addEventListener("click", () => {
+      deleteModals[i].close();
+    });
+  }
 
   // function that sends a
   confirmBtns[i].addEventListener("click", async () => {
