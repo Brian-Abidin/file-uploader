@@ -1,5 +1,6 @@
 const { body } = require("express-validator");
 const multer = require("multer");
+const path = require("path");
 const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
 
@@ -414,12 +415,22 @@ async function editFolder(req, res) {
   res.redirect(`${req.body["web-page-path"]}`);
 }
 
-async function downloadFile(req, res) {
-  // const filePath = get physical file directory path
-  // use __dirname to get the current path then find the path to uploads
-  // const filePath = 'uploads/' + filename
-  // for filename use query in prisma to get the filename from the id passed through the form
-  // res.download(filePath, (err) => { if (err) console.error (download failed) ) )})
+async function getDownload(req, res) {
+  console.log(req.query, "THIS IS THE DOWNLOAD");
+  const fileName = req.query.name;
+  const parentDir = path.dirname(__dirname);
+  const filePath = path.join(`${parentDir}/public/uploads/${fileName}`);
+
+  console.log(filePath, "PATH");
+
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error("Error downloading file:", err);
+      if (!res.headersSent) {
+        res.status(500).send("Can not download file.");
+      }
+    }
+  });
 }
 
 module.exports = {
@@ -432,5 +443,6 @@ module.exports = {
   postUpload,
   postFolder,
   deleteFile,
-  editFolder
+  editFolder,
+  getDownload
 };
