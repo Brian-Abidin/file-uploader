@@ -96,8 +96,8 @@
                       </div>
                       <% } else { %>
                         <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                          <!-- Option to edit folder name-->
-                          <button class="mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Download File</button>
+                          <!-- download form -->
+                          <%- include('downloadForm.ejs', {files, i}) %>
                           <!-- Option to delete folder-->
                           <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete File</button>
                         </div>
