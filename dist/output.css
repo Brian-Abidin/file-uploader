@@ -393,6 +393,9 @@
   .flex-5 {
     flex: 5;
   }
+  .border-collapse {
+    border-collapse: collapse;
+  }
   .origin-top {
     transform-origin: top;
   }
@@ -421,6 +424,9 @@
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .resize {
+    resize: both;
   }
   .scrollbar-thin {
     scrollbar-width: thin;
@@ -472,6 +478,9 @@
   .justify-start {
     justify-content: flex-start;
   }
+  .gap-0 {
+    gap: 0px;
+  }
   .gap-0\.5 {
     gap: calc(var(--spacing) * 0.5);
   }
@@ -507,6 +516,10 @@
   }
   .rounded-xl {
     border-radius: var(--radius-xl);
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
   }
   .border-0 {
     border-style: var(--tw-border-style);
@@ -608,6 +621,9 @@
   .text-nowrap {
     text-wrap: nowrap;
   }
+  .text-wrap {
+    text-wrap: wrap;
+  }
   .whitespace-nowrap {
     white-space: nowrap;
   }
@@ -626,11 +642,18 @@
   .no-underline {
     text-decoration-line: none;
   }
+  .underline {
+    text-decoration-line: underline;
+  }
   .opacity-0 {
     opacity: 0%;
   }
   .opacity-100 {
     opacity: 100%;
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
   .transition-all {
     transition-property: all;
@@ -704,6 +727,12 @@
     }
     .hover\:bg-green-500:hover {
       background-color: var(--color-green-500);
+    }
+    .hover\:text-gray-300:hover {
+      color: var(--color-gray-300);
+    }
+    .hover\:text-gray-500:hover {
+      color: var(--color-gray-500);
     }
     .hover\:text-gray-950:hover {
       color: var(--color-gray-950);
@@ -786,6 +815,11 @@ body {
   initial-value: #0000;
 }
 @property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-outline-style {
   syntax: "*";
   inherits: false;
   initial-value: solid;
@@ -877,6 +911,7 @@ body {
       --tw-scrollbar-thumb: #0000;
       --tw-scrollbar-track: #0000;
       --tw-border-style: solid;
+      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-ease: initial;
       --tw-shadow: 0 0 #0000;
