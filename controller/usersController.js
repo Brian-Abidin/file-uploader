@@ -117,6 +117,7 @@ async function getRootFolder(req, res) {
       greeting: "hello world",
       user: req.user,
       currPath: "/",
+      parentId: null,
       files: allFiles,
       dates: datesArr,
       sizes: sizesArr
@@ -133,11 +134,13 @@ async function getFolders(req, res) {
     sortFiles(allFiles);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
+    const file = await queries.getFileById(id);
 
     // console.log(allFiles);
     // console.log(res.locals, "WHAT IS THIS");
 
     const currPath = await getCurrPath(id);
+    const { parentId } = file;
     // console.log(currPath);
     // console.log("PAHHTHTH");
 
@@ -145,6 +148,7 @@ async function getFolders(req, res) {
       greeting: "hello world",
       user: req.user,
       currPath,
+      parentId,
       files: allFiles,
       dates: datesArr,
       sizes: sizesArr
