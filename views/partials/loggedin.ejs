@@ -63,7 +63,13 @@
     <!-- Right side content showing directory and table -->
     <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
       <div class="m-4 flex flex-col justify-center items-center ">
-        <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl">Current Directory: <%= currPath %></div>
+        <!-- previous directory and current directory -->
+        <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl gap-2">
+          <% if(parentId) { %>
+          <a class="hover:text-gray-300" href="/folders/<%= parentId %>">Previous</a>
+          <% } %>
+          <div>Current Directory: <%= currPath %></div>
+        </div>
         <div class="grid grid-cols-1 grid-rows-1 w-full">
           <!-- table headers -->
           <div class="grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400">
