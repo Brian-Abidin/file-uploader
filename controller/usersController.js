@@ -3,6 +3,8 @@ const multer = require("multer");
 const path = require("path");
 const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
+const supabase = require("../config/supabaseClient");
+const { upload } = require("../config/multer");
 
 // finds the last occurrence of a string and replaces target with replacement
 function replaceLast(str, target, replacement) {
@@ -208,15 +210,49 @@ async function updateMultipleFolderSizes(idsArr) {
   });
 }
 
+async function uploadFile(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(404).send("No file uploaded");
+    }
+
+    // create unique file name
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const fileExt = path.extname(req.file.originalname);
+    const fileName = `${uniqueSuffix}${fileExt}`;
+
+    // upload file buffer to Supabase storage bucket
+    const { data, error } = await supabase.storage
+      .from("user-uploads")
+      .upload(fileName, req.file.buffer, {
+        contentType: req.file.mimetype,
+        upsert: false
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    // get public URL from public bucket
+    const { data: publicUrlData } = supabase.storage
+      .from("user-uploads")
+      .getPublicUrl(fileName);
+
+    return res.status(200).json({
+      message: "File uploaded successfully!",
+      supabasePath: data.path,
+      publicUrl: publicUrlData.publicUrl
+    });
+  } catch (error) {
+    return res.status(500).render("failure", { errors: error });
+  }
+}
+
 async function postUpload(req, res) {
   const path = req.body["page-path"];
   const currFolderId = path.replace(/\D/g, "");
   let parentId = "";
   let currPath = "";
-
-  if (!req.file) {
-    res.status(404).send("No file uploaded");
-  }
 
   // means root directory
   if (currFolderId.length === 0) {
@@ -445,6 +481,7 @@ module.exports = {
   getFailure,
   getForm,
   postUpload,
+  uploadFile,
   postFolder,
   deleteFile,
   editFolder,
