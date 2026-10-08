@@ -14,7 +14,7 @@
           <div class="mb-2 text-2xl">Deleting the following file:</div>
         <% }%>
         <div id="data-container" class="text-lg">
-          <div id="file-id" class="file-id">ID: <%=files[i].id %></div>
+          ID:<div id="file-id" class="file-id"><%=files[i].id %></div>
           Name: <%= files[i].name %><br>
           Size: <%= (files[i].size / (1024 * 1024)).toFixed(2) %> MB
         </div>
