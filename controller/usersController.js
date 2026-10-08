@@ -249,17 +249,23 @@ async function uploadFile(req, res) {
 }
 
 async function postUpload(req, res) {
-  const path = req.body["page-path"];
-  const currFolderId = path.replace(/\D/g, "");
+  const pagePath = req.body["page-path"];
+  const currFolderId = pagePath.replace(/\D/g, "");
   let parentId = "";
   let currPath = "";
+  console.log(req.file, currFolderId, "FILEEEEE");
+
+  // create unique file name
+  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+  const fileExt = path.extname(req.file.originalname);
+  const fileName = `${uniqueSuffix}${fileExt}`;
 
   // means root directory
   if (currFolderId.length === 0) {
     parentId = await queries.getItemIdByPath("/");
 
     await queries.createNewFile(
-      req.file.filename,
+      fileName,
       "FILE",
       req.file.mimetype,
       `/${req.file.filename}`,
@@ -274,10 +280,10 @@ async function postUpload(req, res) {
     currPath = await getCurrPath(currFolderId);
 
     await queries.createNewFile(
-      req.file.filename,
+      fileName,
       "FILE",
       req.file.mimetype,
-      `${currPath}/${req.file.filename}`,
+      `${currPath}/${fileName}`,
       req.file.size,
       currPath,
       req.user.id,
@@ -296,11 +302,11 @@ async function postUpload(req, res) {
 
 async function postFolder(req, res) {
   const folderName = req.body.folder;
-  const path = req.body["page-path-folder"];
-  const currFolderId = path.replace(/\D/g, "");
+  const pagePath = req.body["page-path-folder"];
+  const currFolderId = pagePath.replace(/\D/g, "");
   let parentId = "";
   let currPath = "";
-  console.log(path, currFolderId, "THISSSSSS");
+  console.log(pagePath, currFolderId, "THISSSSSS");
 
   // current directory is the root folder
   if (currFolderId.length === 0) {
@@ -346,14 +352,18 @@ async function postFolder(req, res) {
 }
 
 async function deleteFile(req, res) {
+  const file = await queries.getFileById(Number(req.body.id));
   console.log("is this working? WAIT IT WAS WORKING");
   console.log(req.body, "HEREEEERESFSFESF");
   await queries.deleteFileById(Number(req.body.id));
 
-  // after deletion query, update folder sizes
-  updateFolderSizeById(Number(req.body.id));
-  const ancestors = await getAllAncestorsById(Number(req.body.id));
-  updateMultipleFolderSizes(ancestors);
+  // root id = 7
+  if (file.parentId !== 7) {
+    // after deletion query, update folder sizes
+    updateFolderSizeById(Number(req.body.id));
+    const ancestors = await getAllAncestorsById(Number(req.body.id));
+    updateMultipleFolderSizes(ancestors);
+  }
 
   res.redirect("/");
 }
