@@ -70,7 +70,12 @@ UsersRouter.post(
   })
 );
 
-UsersRouter.post("/upload", upload.single("image"), usersController.postUpload);
+UsersRouter.post(
+  "/upload",
+  upload.single("image"),
+  usersController.uploadFile,
+  usersController.postUpload
+);
 UsersRouter.post("/newfolder", usersController.postFolder);
 UsersRouter.delete("/folders/delete", usersController.deleteFile);
 UsersRouter.post("/edit", usersController.editFolder);
