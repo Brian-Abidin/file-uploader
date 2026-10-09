@@ -6,20 +6,6 @@ const queries = require("../services/userService");
 const supabase = require("../config/supabaseClient");
 const { upload } = require("../config/multer");
 
-// finds the last occurrence of a string and replaces target with replacement
-function replaceLast(str, target, replacement) {
-  // Find the index of the last occurrence
-  const lastIndex = str.lastIndexOf(target);
-
-  // If the target isn't found, return the original string
-  if (lastIndex === -1) return str;
-
-  // Split and recombine the string
-  return (
-    str.slice(0, lastIndex) + replacement + str.slice(lastIndex + target.length)
-  );
-}
-
 function formatFileSizes(files) {
   const sizesArr = [];
   for (let i = 0; i < files.length; i += 1) {
@@ -65,15 +51,6 @@ async function setupInitialLogin(user) {
   }
   return message;
 }
-
-// function findFullPath(startPath, root) {
-//   const currPath = `${startPath}`;
-
-//   if (startPath === root) {
-//     return null;
-//   }
-
-// }
 
 async function getCurrPath(folderId) {
   // using pathId, get current directory
@@ -368,7 +345,7 @@ async function deleteFile(req, res) {
   res.redirect("/");
 }
 
-function findNthInstance(str, char, n) {
+function findNthInstance(str, char) {
   // uses global flag to check all instance of char
   const regex = new RegExp(char, "g");
   const matches = [...str.matchAll(regex)]; // using spread operator to convert iterator (.matchAll) to array
