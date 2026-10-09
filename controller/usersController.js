@@ -187,7 +187,7 @@ async function updateMultipleFolderSizes(idsArr) {
   });
 }
 
-async function uploadFile(req, res) {
+async function uploadFile(req, res, next) {
   try {
     if (!req.file) {
       return res.status(404).send("No file uploaded");
@@ -197,6 +197,9 @@ async function uploadFile(req, res) {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const fileExt = path.extname(req.file.originalname);
     const fileName = `${uniqueSuffix}${fileExt}`;
+
+    // storing filename for postUpload use
+    res.locals.fileName = fileName;
 
     // upload file buffer to Supabase storage bucket
     const { data, error } = await supabase.storage
@@ -215,11 +218,19 @@ async function uploadFile(req, res) {
       .from("user-uploads")
       .getPublicUrl(fileName);
 
-    return res.status(200).json({
-      message: "File uploaded successfully!",
-      supabasePath: data.path,
-      publicUrl: publicUrlData.publicUrl
-    });
+    console.log(
+      data.path,
+      publicUrlData.publicUrl,
+      "File uploaded succsesfully!"
+    );
+
+    return next();
+
+    // return res.status(200).json({
+    //   message: "File uploaded successfully!",
+    //   supabasePath: data.path,
+    //   publicUrl: publicUrlData.publicUrl
+    // });
   } catch (error) {
     return res.status(500).render("failure", { errors: error });
   }
@@ -230,12 +241,7 @@ async function postUpload(req, res) {
   const currFolderId = pagePath.replace(/\D/g, "");
   let parentId = "";
   let currPath = "";
-  console.log(req.file, currFolderId, "FILEEEEE");
-
-  // create unique file name
-  const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-  const fileExt = path.extname(req.file.originalname);
-  const fileName = `${uniqueSuffix}${fileExt}`;
+  const { fileName } = res.locals;
 
   // means root directory
   if (currFolderId.length === 0) {
