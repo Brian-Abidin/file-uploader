@@ -54,21 +54,11 @@ dropdownBtn.addEventListener("click", (e) => {
   dropdownIcon.classList.toggle("rotate-360");
 });
 
-// open file upload and create new folder modals
-// modalBtnFile.addEventListener("click", () => {
-//   modalFile.showModal();
-//   console.log("hello?");
-// });
-
 modalBtnFolder.addEventListener("click", () => {
   modalFolder.showModal();
   console.log("hello?");
 });
 
-// close file upload and create new folder modal
-// closeModalBtnFile.addEventListener("click", () => {
-//   modalFile.close();
-// });
 closeModalBtnFolder.addEventListener("click", () => {
   modalFolder.close();
 });
@@ -160,27 +150,3 @@ for (let i = 0; i < deleteModals.length; i += 1) {
     }
   });
 }
-
-// document.addEventListener("click", (e) => {
-//   const dropdowns = document.querySelectorAll(".dropdown-menu-folder").forEach((dropdown) => {
-//   if(!dropdowns.includes(e.target)){
-//     dropdowns.forEach((dropdown) => {
-//       if(dropdown.classList.contains("opacity-100"))
-//       dropdown.classList.remove("opacity-100")
-//       dropdown.classList.add("opacity-0")
-//     })
-//   }
-// })
-
-// closes modal if click is outside
-// modalFolder.addEventListener("click", (e) => {
-//   const dialogDimensions = modalFolder.getBoundingClientRect();
-//   if (
-//     e.clientX < dialogDimensions.left ||
-//     e.clientX > dialogDimensions.right ||
-//     e.clientY < dialogDimensions.top ||
-//     e.clientY > dialogDimensions.bottom
-//   ) {
-//     modalFolder.close();
-//   }
-// });
