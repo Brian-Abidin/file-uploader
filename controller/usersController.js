@@ -334,11 +334,19 @@ async function deleteFile(req, res) {
   console.log(req.body, "HEREEEERESFSFESF");
   await queries.deleteFileById(Number(req.body.id));
 
-  // root id = 7
-  if (file.parentId !== 7) {
+  // if not in root directory and a file
+  if (file.parentId !== 7 && file.type === "FILE") {
     // after deletion query, update folder sizes
-    updateFolderSizeById(Number(req.body.id));
-    const ancestors = await getAllAncestorsById(Number(req.body.id));
+    updateFolderSizeById(Number(file.parentId));
+    const ancestors = await getAllAncestorsById(Number(file.parentId));
+    updateMultipleFolderSizes(ancestors);
+  }
+
+  // if not in root directory and a folder
+  if (file.parentId !== 7 && file.type === "FOLDER") {
+    // after deletion query, update folder sizes
+    updateFolderSizeById(Number(file.id));
+    const ancestors = await getAllAncestorsById(Number(file.id));
     updateMultipleFolderSizes(ancestors);
   }
 
