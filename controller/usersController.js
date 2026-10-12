@@ -4,6 +4,7 @@ const path = require("path");
 const prisma = require("../lib/prisma");
 const queries = require("../services/userService");
 const supabase = require("../config/supabaseClient");
+const pubQueries = require("../services/publicServices");
 const { upload } = require("../config/multer");
 
 function formatFileSizes(files) {
@@ -338,7 +339,10 @@ async function deleteFile(req, res) {
   const file = await queries.getFileById(Number(req.body.id));
   console.log("is this working? WAIT IT WAS WORKING");
   console.log(req.body, "HEREEEERESFSFESF");
+
+  // removing file from database and cloud storage
   await queries.deleteFileById(Number(req.body.id));
+  await pubQueries.deleteBucketItem(file.name);
 
   // if not in root directory and a file
   if (file.parentId !== 7 && file.type === "FILE") {
