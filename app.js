@@ -7,6 +7,7 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("./generated/prisma/client.js");
 const usersRouter = require("./routes/usersRouter");
 const passportController = require("./config/passport");
+const pageRouter = require("./routes/pageRouter");
 
 const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
