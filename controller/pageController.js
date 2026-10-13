@@ -27,3 +27,8 @@ async function renderPublicPage(req, res) {
     res.status(500).render("failure", { errors: error });
   }
 }
+
+module.exports = {
+  createShareableLink,
+  renderPublicPage
+};
