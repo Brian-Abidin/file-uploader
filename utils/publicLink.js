@@ -6,7 +6,7 @@ function generatePublicLink(pageId, duration) {
 
   // hash created using pageId and expiration timestamp
   const hash = crypto
-    .createHmac("sha256", "key")
+    .createHmac("sha256", process.env.SECRET_KEY)
     .update(`${pageId}:${expiresAt}`)
     .digest("hex");
 
@@ -22,7 +22,7 @@ function verifyPublicLink(pageId, expires, token) {
 
   // creates the hash again and compares it to the url token
   const expectedHash = crypto
-    .createHmac("sha256", "key")
+    .createHmac("sha256", process.env.SECRET_KEY)
     .update(`${pageId}:${expires}`)
     .digest("hex");
 
