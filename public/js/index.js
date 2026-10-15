@@ -35,6 +35,8 @@ const dropdownFolder = document.getElementsByClassName(
   ".dropdown-toggle-folder"
 );
 
+const shareBtn = document.getElementById("shareBtn");
+
 pagePath.value = window.location.pathname;
 pagePathFolder.value = window.location.pathname;
 for (let i = 0; i < webPagePath.length; i += 1) {
@@ -150,3 +152,26 @@ for (let i = 0; i < deleteModals.length; i += 1) {
     }
   });
 }
+
+shareBtn.addEventListener("click", async () => {
+  const folderPath = window.location.pathname;
+  const fileId = folderPath.replace(/\D/g, "");
+  console.log(folderPath, fileId, "HELLO");
+  // const payload = {
+  //   username: "test",
+  //   fileId: fileId
+  // };
+  // try {
+  //   const response = await fetch(`${folderPath}/share`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(payload)
+  //   });
+  //   const data = await response.text();
+  //   console.log("Success:", data);
+  // } catch (error) {
+  //   console.error("Error:", error);
+  // }
+});
