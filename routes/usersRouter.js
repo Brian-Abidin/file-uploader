@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const { Router } = require("express");
 const passport = require("passport");
 const usersController = require("../controller/usersController");
+const pageController = require("../controller/pageController");
 const passportController = require("../config/passport");
 const { upload } = require("../config/multer");
 
@@ -80,5 +81,7 @@ UsersRouter.post("/newfolder", usersController.postFolder);
 UsersRouter.delete("/folders/delete", usersController.deleteFile);
 UsersRouter.post("/edit", usersController.editFolder);
 UsersRouter.get("/download", usersController.getDownload);
+UsersRouter.post("/folders/:pageId/share", pageController.createShareableLink);
+UsersRouter.get("/share/:pageId", pageController.renderPublicPage);
 
 module.exports = UsersRouter;
