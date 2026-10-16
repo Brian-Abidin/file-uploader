@@ -1,133 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-  </head>
+  <%- include('partials/head') %>
   <body>
-    <div class="mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
-      <div class="flex h-full flex-col flex-1 min-w-40 max-w-50 bg-gray-800"> 
-        <!-- button used to upload a new file in current directory -->
-        <div class="m-2 flex items-center justify-center h-15 bg-gray-500 rounded-xl text-gray-50 hover:bg-gray-700 hover:border-2 hover:border-gray-50">
-          <form id="uploadForm" class="h-full w-full" action="/upload" method="POST" enctype="multipart/form-data">
-            <input class="hidden" id="page-path" name="page-path" type="text">
-            <label for="fileInput" class="flex flex-col items-center justify-center w-full h-full hover:cursor-pointer">
-              Upload File
-              <input type="file" id="fileInput" name="image" onchange="this.form.submit()" hidden />
-            </label>
-          </form>  
-        </div>
-        <!-- button used to create a new folder in current directory -->
-        <button id="modalBtn-folder" class="m-2 bg-gray-500 h-15 rounded-xl cursor-pointer transition-colors hover:bg-gray-700 hover:border-2 hover:border-gray-50">New Folder</button>
-        <dialog id="modal-folder" class="m-auto p-2 max-w-screen max-h-screen inset-0 fixed bg-gray-800 text-gray-50 rounded-lg border-2 border-gray-400">
-          <!-- inside modal after clicking new folder -->
-          <div class="w-full h-full flex flex-col justify-center items-center ">
-            <!-- modal upper content -->
-            <div class="w-full h-5 flex items-center justify-end">
-              <button id="close-modal-btn-folder" class="h-5 w-8 flex justify-center items-center bg-gray-500 rounded-md hover:cursor-pointer">x</button>
+    <div class="min-h-screen min-w-screen grid grid-col-1 grid-rows-[auto_1fr] bg-gray-800">
+      <%- include('partials/publicHeader') %>
+      <div class="ml-2 mr-2 mb-2 flex justify-start items-start bg-gray-800 text-gray-50">
+        <!-- Right side content showing directory and table -->
+        <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
+          <div class="m-4 flex flex-col justify-center items-center ">
+            <!-- previous directory and current directory -->
+             <div><h3>This is a shared link. Only files inside a folder will be shared.</h3></div>
+            <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl gap-2">
+              <div>Current Directory: <%= parentName %></div>
             </div>
-            <!-- modal bottom content -->
-            <div class="flex-1 flex w-full h-full  justify-center items-center">
-              <form class="flex flex-col gap-2" action="/newfolder" method="POST">
-                <label class="text-xl" for="folder">New Folder:</label>
-                <input class="hidden" id="page-path-folder" name="page-path-folder" type="text">
-                <input class="m-0 p-2 w-full flex h-7 text-base border-2 rounded-sm focus:outline-none bg-gray-100 text-gray-950" for="folder" name="folder" type="text" placeholder="new folder">
-                <button class="mt-3 h-8 w-full bg-gray-500 rounded-sm hover:cursor-pointer hover:bg-gray-700">Submit</button>
-              </form>
+            <div class="grid grid-cols-1 grid-rows-1 w-full">
+              <!-- table headers -->
+              <div class="grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400">
+                <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Type</h5></div>
+                <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Name</h5></div>
+                <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Date</h5></div>
+                <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Size</h5></div>
+                <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm"></h5></div>
+              </div>
+              <!-- loops through all files in database -->
+              <% for(let i = 0; i < files.length; i++ ) { %>
+                <div class="h-10 relative grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400 text-sm gap-0.5">
+                  <div class="pl-2 w-full flex items-center justify-start"><%= files[i].type %></div>
+                  <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= files[i].name %></div>
+                  <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">FIX THIS</div>
+                  <div  class="pl-2 w-full flex items-center justify-start "><%= files[i].size %> MB</div>
+                  <!-- file options -->
+                    <nav class="w-fit flex items-center justify-start" aria-label="Folder Options">
+                      <div class="w-full dropdown-folder relative inline-block">
+                        <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class="flex justify-center items-center hover:cursor-pointer">
+                          <img src="/images/menu.png" class="dropdown-toggle-folder w-7 hover:bg-gray-50 rounded-lg" alt="vertical 3 dots menu icon">
+                        </button>
+                        <% if(files[i].type === "FOLDER") { %>
+                          <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                            <!-- Option to edit folder name-->
+                            <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
+                            <!-- Option to delete folder-->
+                            <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
+                          </div>
+                          <% } else { %>
+                          <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
+                            <!-- download form -->
+                            <%- include('partials/downloadForm.ejs', {files, i}) %>
+                            <!-- Option to delete folder-->
+                            <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete File</button>
+                          </div>
+                        <% } %>
+                      </div>
+                    </nav>
+                  <%- include('partials/editModal.ejs', {files, i}) %>
+                  <%- include('partials/deleteModal.ejs', {files, i}) %>
+                </div>              
+              <%} %>              
             </div>
-          </div>
-        </dialog>
-        <div>
-          <button id="shareBtn" class="h-fit w-fit rounded-2xl bg-amber-800 hover:border-2 hover:cursor-pointer hover:border-amber-50">TESTING FOR PUBLIC LINK</button>
-        </div>
-        <!-- Dropdown menu for the folders -->
-        <div class="m-2 h-full flex flex-col justify-start items-center ">
-          <div class="w-full relative inline-block">
-            <!-- Dropdown button -->
-            <button id="dropdownBtn" class="h-10 w-full flex justify-start items-center cursor-pointer focus:outline-none bg-gray-100 text-gray-950 border-none">
-              <img id="dropdownIcon" class="w-4 h-4 rotate-270 transform transition-transform duration-300" src="/images/down.png" alt="arrow bracket">
-              <div class="ml-1">john</div>
-            </button>
-            <!-- Dropdown menu -->
-            <div id="dropdownMenu" class="w-full absolute right-0 origin-top transition-all duration-200 ease-in-out opacity-0 scale-y-0 pointer-events-none bg-gray-50 flex-col z-10">
-              <div class="flex h-10 justify-start items-center text-gray-950 hover:bg-gray-100">
-                <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
-                <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
-              </div>
-              <div class="ml-1 h-10 flex justify-start items-center text-gray-950 hover:bg-gray-100">
-                <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
-                <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
-              </div>
-              <div class="ml-2 h-10 flex justify-start items-center text-gray-950 hover:bg-gray-100">
-                <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
-                <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
-              </div>
-              <div class="ml-3 h-10 flex justify-start items-center text-gray-950 hover:bg-gray-100">
-                <img class="w-3 h-3 rotate-270" src="/images/down.png" alt="arrow bracket">
-                <a class="text-sm p-1 block no-underline first:rounded-t-md" href="">test folder 1</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Right side content showing directory and table -->
-      <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
-        <div class="m-4 flex flex-col justify-center items-center ">
-          <!-- previous directory and current directory -->
-          <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl gap-2">
-            <% if(parentId) { %>
-            <a class="hover:text-gray-300" href="/folders/<%= parentId %>">Previous</a>
-            <% } %>
-            <div>Current Directory: <%= currPath %></div>
-          </div>
-          <div class="grid grid-cols-1 grid-rows-1 w-full">
-            <!-- table headers -->
-            <div class="grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400">
-              <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Type</h5></div>
-              <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Name</h5></div>
-              <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Date</h5></div>
-              <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm">Size</h5></div>
-              <div class="pl-2 w-full h-5 flex justify-start items-center text-gray-950 bg-gray-300"><h5 class="h-fit text-sm"></h5></div>
-            </div>
-            <!-- loops through all files in database -->
-            <% for(let i = 0; i < files.length; i++ ) { %>
-              <div class="h-10 relative grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer gap-0.5">
-                <a href="/folders/<%=files[i].id %>" class='absolute top-0 bottom-0 left-0 right-0'></a>
-                <div class="pl-2 w-full flex items-center justify-start"><%= files[i].type %></div>
-                <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= files[i].name %></div>
-                <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= dates[i] %></div>
-                <div  class="pl-2 w-full flex items-center justify-start "><%= sizes[i] %> MB</div>
-                <!-- file options -->
-                  <nav class="w-fit flex items-center justify-start" aria-label="Folder Options">
-                    <div class="w-full dropdown-folder relative inline-block">
-                      <button aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class="flex justify-center items-center hover:cursor-pointer">
-                        <img src="/images/menu.png" class="dropdown-toggle-folder w-7 hover:bg-gray-50 rounded-lg" alt="vertical 3 dots menu icon">
-                      </button>
-                      <% if(files[i].type === "FOLDER") { %>
-                        <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                          <!-- Option to edit folder name-->
-                          <button class="open-edit-folder-btn mb-1 w-full hover:text-gray-950 hover:bg-gray-200">Edit Folder</button>
-                          <!-- Option to delete folder-->
-                          <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete Folder</button>
-                        </div>
-                        <% } else { %>
-                        <div class="dropdown-menu-folder absolute top-full w-40 right-0 left-auto mt-1 bg-gray-50 text-gray-950 list-none p-2 z-10 pointer-events-none opacity-0 scale-95 transition-all duration-150">
-                          <!-- download form -->
-                          <%- include('downloadForm.ejs', {files, i}) %>
-                          <!-- Option to delete folder-->
-                          <button class="delete-folder-btn w-full hover:text-gray-950 hover:bg-gray-200" href="/">Delete File</button>
-                        </div>
-                      <% } %>
-                    </div>
-                  </nav>
-                <%- include('editModal.ejs', {files, i}) %>
-                <%- include('deleteModal.ejs', {files, i}) %>
-              </div>              
-            <%} %>              
           </div>
         </div>
       </div>
     </div>
+    <script src="/js/index.js" defer></script>
   </body>
 </html>
