@@ -155,23 +155,23 @@ for (let i = 0; i < deleteModals.length; i += 1) {
 
 shareBtn.addEventListener("click", async () => {
   const folderPath = window.location.pathname;
-  const fileId = folderPath.replace(/\D/g, "");
-  console.log(folderPath, fileId, "HELLO");
-  // const payload = {
-  //   username: "test",
-  //   fileId: fileId
-  // };
-  // try {
-  //   const response = await fetch(`${folderPath}/share`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(payload)
-  //   });
-  //   const data = await response.text();
-  //   console.log("Success:", data);
-  // } catch (error) {
-  //   console.error("Error:", error);
-  // }
+  // const fileId = folderPath.replace(/\D/g, "");
+  console.log(folderPath, "HELLO");
+  const payload = {
+    username: "test"
+    // fileId
+  };
+  try {
+    const response = await fetch(`${folderPath}/share`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.text();
+    console.log("Success:", data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 });
