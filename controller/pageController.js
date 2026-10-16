@@ -1,4 +1,5 @@
 const prisma = require("../lib/prisma");
+const queries = require("../services/userService");
 const { generatePublicLink, verifyPublicLink } = require("../utils/publicLink");
 
 async function createShareableLink(req, res) {
@@ -12,6 +13,7 @@ async function createShareableLink(req, res) {
 async function renderPublicPage(req, res) {
   const { pageId } = req.params;
   const { expires, token } = req.query;
+  const files = await queries.getAllItemsByParentId(Number(pageId));
 
   const isValid = verifyPublicLink(pageId, expires, token);
 
@@ -21,10 +23,10 @@ async function renderPublicPage(req, res) {
   try {
     // fetch data from model
     // primsa get all the page data
-    const pageData = { title: "public title" };
-    res.render("publicView", { data: pageData });
+    const pageData = { title: "public title", files };
+    return res.render("publicView", { data: pageData });
   } catch (error) {
-    res.status(500).render("failure", { errors: error });
+    return res.status(500).render("failure", { errors: error });
   }
 }
 
