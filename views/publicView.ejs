@@ -9,7 +9,15 @@
         <div class="h-full w-full flex-col flex-5 justify-center items-center bg-gray-700 rounded-xl">
           <div class="m-4 flex flex-col justify-center items-center ">
             <!-- previous directory and current directory -->
-             <div><h3>This is a shared link. Only files inside a folder will be shared.</h3></div>
+            <div class="w-full flex flex-col justify-center items-center">
+              <h2>This is a public shared link that will expire in <%= minutes %> <% if(minutes > 2){ %>
+                minutes.
+              <% } else { %>
+                minute.
+              <%}%>
+              </h2>
+              <h2>Only files inside a folder will be shared.</h2>
+            </div>
             <div class="ml-1 h-15 max-w-175 flex self-start items-center overflow-x-auto whitespace-nowrap text-xl gap-2">
               <div>Current Directory: <%= parentName %></div>
             </div>
