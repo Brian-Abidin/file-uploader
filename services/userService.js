@@ -213,6 +213,19 @@ async function updateFileSizeById(id, size) {
   });
 }
 
+async function getAllFilesByParentId(id) {
+  const items = await prisma.Item.findMany({
+    where: {
+      parentId: Number(id),
+      type: "FILE"
+    },
+    include: {
+      children: true
+    }
+  });
+  return items;
+}
+
 // async function deleteFolder(folderId) {}
 
 module.exports = {
@@ -228,6 +241,7 @@ module.exports = {
   getItemIdByPath,
   getAllItemsByPath,
   getAllItemsByParentId,
+  getAllFilesByParentId,
   deleteFileById,
   editFilePathById,
   editFileLocationById,
