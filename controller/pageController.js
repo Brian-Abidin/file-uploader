@@ -19,12 +19,13 @@ async function createShareableLink(req, res) {
 async function renderPublicPage(req, res) {
   const { pageId } = req.params;
   const { expires, token } = req.query;
-  const files = await queries.getFilesByFileId(Number(pageId));
+  const files = await queries.getAllFilesByParentId(Number(pageId));
   const parentFile = await queries.getFileById(Number(pageId));
   const minutes = expiredInMinutes(expires);
 
   const isValid = verifyPublicLink(pageId, expires, token);
 
+  console.log(pageId, files, "Pageidddddddddddd");
   if (!isValid) {
     return res.status(403).send("This link is invalid or has expired");
   }
