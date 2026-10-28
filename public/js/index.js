@@ -154,7 +154,12 @@ for (let i = 0; i < deleteModals.length; i += 1) {
 }
 
 shareBtn.addEventListener("click", async () => {
+  // NEED TO ADD USER ID AND PARENT ID OF ROOT FOLDER TO SHARE
   const folderPath = window.location.pathname;
+  const regex = /\d/; // check if numbers exists
+  // if (!regex.test(folderPath)) {
+  //   folderPath += "7";
+  // }
   // const fileId = folderPath.replace(/\D/g, "");
   console.log(folderPath, "HELLO");
   const payload = {
