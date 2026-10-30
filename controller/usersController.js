@@ -64,8 +64,10 @@ async function getCurrPath(folderId) {
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
     // check if root folder is established
+    const rootFolder = await queries.getAllItemsByParentId(null);
+    console.log("ROOT FOLDER", rootFolder);
     console.log("GREETING", await setupInitialLogin(req.user));
-    res.redirect("/folders");
+    res.redirect(`/folders/${rootFolder[0].id}`);
   } else {
     res.render("index");
   }
