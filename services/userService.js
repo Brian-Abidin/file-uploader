@@ -24,6 +24,16 @@ async function createNewFile(
   });
 }
 
+async function getRootFolderByUserId(userId) {
+  const item = await prisma.Item.findFirst({
+    where: {
+      userId: Number(userId),
+      parentId: null
+    }
+  });
+  return item;
+}
+
 async function getFileByNameAndParentId(name, parentId) {
   const item = await prisma.Item.findFirst({
     where: {
@@ -230,6 +240,7 @@ async function getAllFilesByParentId(id) {
 
 module.exports = {
   createNewFile,
+  getRootFolderByUserId,
   getFilesByUserId,
   getFilesByFileId,
   createNewFolder,
