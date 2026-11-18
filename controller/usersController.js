@@ -64,14 +64,16 @@ async function getCurrPath(folderId) {
 async function getIndex(req, res) {
   if (req.isAuthenticated()) {
     // check if root folder is established
-    const rootFolder = await queries.getAllItemsByParentId(null);
+    const rootFolder = await queries.getRootFolderByUserId(req.user.id);
     console.log("ROOT FOLDER", rootFolder);
     console.log("GREETING", await setupInitialLogin(req.user));
-    res.redirect(`/folders/${rootFolder[0].id}`);
+    res.redirect(`/folders/${rootFolder.id}`);
   } else {
     res.render("index");
   }
 }
+
+// Create a function that uses the user's ID and where parentId is null
 
 function sortFiles(files) {
   const target = "FOLDER";
@@ -86,6 +88,8 @@ function sortFiles(files) {
 async function getRootFolder(req, res) {
   if (req.isAuthenticated()) {
     const allFiles = await queries.getAllItemsByPath("/");
+    const rootFolder = await queries.getAllItemsByParentId(null);
+
     sortFiles(allFiles);
     const datesArr = formatFileDates(allFiles);
     const sizesArr = formatFileSizes(allFiles);
@@ -95,15 +99,7 @@ async function getRootFolder(req, res) {
       console.log("HERE", file);
     });
 
-    res.render("index", {
-      greeting: "hello world",
-      user: req.user,
-      currPath: "/",
-      parentId: null,
-      files: allFiles,
-      dates: datesArr,
-      sizes: sizesArr
-    });
+    res.redirect(`/folders/${rootFolder[0].id}`);
   } else {
     res.render("index");
   }
