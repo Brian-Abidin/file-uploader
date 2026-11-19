@@ -122,15 +122,22 @@ async function getFolders(req, res) {
     // console.log(currPath);
     // console.log("PAHHTHTH");
 
-    res.render("index", {
-      greeting: "hello world",
-      user: req.user,
-      currPath,
-      parentId,
-      files: allFiles,
-      dates: datesArr,
-      sizes: sizesArr
-    });
+    // checks if user can access the directory
+    if (file.userId !== req.user.id) {
+      res.render("failure", {
+        errors: "Current user doesn't have access to this directory"
+      });
+    } else {
+      res.render("index", {
+        greeting: "hello world",
+        user: req.user,
+        currPath,
+        parentId,
+        files: allFiles,
+        dates: datesArr,
+        sizes: sizesArr
+      });
+    }
   } else {
     res.render("index");
   }
