@@ -84,8 +84,10 @@
           </div>
           <!-- loops through all files in database -->
           <% for(let i = 0; i < files.length; i++ ) { %>
-            <div class="h-10 relative grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400 text-sm hover:bg-gray-900 hover:cursor-pointer gap-0.5">
-              <a href="/folders/<%=files[i].id %>" class='absolute top-0 bottom-0 left-0 right-0'></a>
+            <div class="h-10 relative grid grid-cols-[100px_1fr_1fr_100px_50px] place-items-center border-b border-gray-400 text-sm gap-0.5">
+              <% if(files[i].type === "FOLDER"){ %>
+                <a href="/folders/<%=files[i].id %>" class='absolute top-0 bottom-0 left-0 right-0 hover:bg-gray-800/80 hover:cursor-pointer '></a>
+              <% } %>
               <div class="pl-2 w-full flex items-center justify-start"><%= files[i].type %></div>
               <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= files[i].name %></div>
               <div  class="pl-2 w-full flex items-center justify-start text-nowrap overflow-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent"><%= dates[i] %></div>
